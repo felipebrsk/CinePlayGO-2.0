@@ -18,8 +18,8 @@
             <span> |</span>
             <span>{{ $movie['release_date'] }}</span>
         </div>
-        <div>
+        <p>
             {{ $movie['genres'] }}
-        </div>
+        </p>
     </div>
 </div>

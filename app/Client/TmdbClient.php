@@ -10,7 +10,7 @@ class TmdbClient
     /**
      * The tmdb client.
      *
-     * @var \Illuminate\Support\Facades\Http
+     * @var \Illuminate\Http\Client\PendingRequest
      */
     protected $client;
 

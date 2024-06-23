@@ -16,6 +16,15 @@ class SearchDropdown extends Component
     public $search = '';
 
     /**
+     * The rules for component.
+     *
+     * @var array<string, string>
+     */
+    protected $rules = [
+        'title' => 'required|min:2',
+    ];
+
+    /**
      * The is open search.
      *
      * @var boolean

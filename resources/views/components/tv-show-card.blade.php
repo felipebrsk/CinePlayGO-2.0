@@ -18,8 +18,8 @@
             <span> |</span>
             <span>{{ $tvShow['release_date'] }}</span>
         </div>
-        <div>
+        <p>
             {{ $tvShow['genres'] }}
-        </div>
+        </p>
     </div>
 </div>
