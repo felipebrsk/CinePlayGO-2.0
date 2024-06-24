@@ -9,11 +9,11 @@
             </div>
         </div>
     </section>
-    <section class="container mx-auto py-8 px-4">
+    <section class="container mx-auto py-8">
         <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold sm:text-left text-center">
             Now playing movies
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:gap-8 gap-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-8">
             @foreach ($nowPlayingMovies as $movie)
                 <div class="flex justify-center">
                     <x-movie-card :movie="$movie" />
@@ -21,11 +21,11 @@
             @endforeach
         </div>
     </section>
-    <section class="container mx-auto py-8 px-4">
+    <section class="container mx-auto py-8 border-t border-gray-700">
         <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold sm:text-left text-center">
             Now playing tv shows
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:gap-8 gap-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-8">
             @foreach ($nowPlayingTvShows as $tvShow)
                 <div class="flex justify-center">
                     <x-tv-show-card :tvShow="$tvShow" />

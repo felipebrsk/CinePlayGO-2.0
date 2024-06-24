@@ -1,10 +1,10 @@
-<div class="mt-8">
-    <a href="#">
+<div class="w-full sm:px-0 px-2">
+    <a href="{{ route('movies.show', $movie['id']) }}">
         <img alt="movie poster" src="{{ $movie['poster_path'] }}"
-            class="hover:opacity-75 transition-all ease-in-out duration-150 object-cover rounded-md sm:h-[21rem] h-auto">
+            class="hover:opacity-75 transition-all ease-in-out duration-150 object-contain rounded-md w-full">
     </a>
     <div class="mt-2 text-gray-400 text-sm">
-        <a href="#"
+        <a href="{{ route('movies.show', $movie['id']) }}"
             class="text-lg mt-2 text-gray-200 hover:text-gray-300 transition duration-200">{{ $movie['title'] }}</a>
         <div class="flex items-center mt-1 gap-1">
             <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24">

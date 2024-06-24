@@ -61,6 +61,22 @@ class MovieService
     }
 
     /**
+     * Get a movie details.
+     *
+     * @param string $id
+     * @return array<string, mixed>
+     */
+    public function details(string $id): array
+    {
+        return $this->tmdbClient->get(
+            "movie/{$id}",
+            [
+                'append_to_response' => 'credits,videos,images,similar,reviews,recommendations',
+            ],
+        );
+    }
+
+    /**
      * Format movies with genres.
      *
      * @param array<string, mixed> $movies
