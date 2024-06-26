@@ -1,10 +1,10 @@
 <div class="w-full sm:px-0 px-2">
-    <a href="#">
+    <a href="{{ route('tv-shows.show', $tvShow['id']) }}">
         <img alt="movie poster" src="{{ $tvShow['poster_path'] }}"
             class="hover:opacity-75 transition-all ease-in-out duration-150 object-contain rounded-md w-full">
     </a>
     <div class="mt-2 text-gray-400 text-sm">
-        <a href="#"
+        <a href="{{ route('tv-shows.show', $tvShow['id']) }}"
             class="text-lg mt-2 text-gray-200 hover:text-gray-300 transition duration-200 break-words max-w-[0.1rem]">{{ $tvShow['title'] }}</a>
         <div class="flex items-center mt-1 gap-1">
             <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24">

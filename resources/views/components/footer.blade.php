@@ -1,15 +1,15 @@
 <footer class="bg-gray-900 py-8 text-white border-t border-gray-800">
     <div
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 flex justify-between items-center sm:flex-row flex-col gap-4">
-        <div>
-            <span class="text-lg font-bold">CinePlayGO V2.0</span>
-            <p class="mt-2 text-sm">Project developed using <a href="https://tailwindcss.com/"
+        <div class="footer-logo">
+            @include('components.logo')
+            <p class="mt-2 text-sm">Project developed using <a href="https://tailwindcss.com/" target="_blank"
                     class="text-blue-300 hover:text-blue-400 transition-all duration-200">
                     Tailwind
-                </a>, <a href="https://laravel.com/"
+                </a>, <a href="https://laravel.com/" target="_blank"
                     class="text-blue-300 hover:text-blue-400 transition-all duration-200">Laravel</a>
                 and
-                <a class="text-blue-300 hover:text-blue-400 transition-all duration-200"
+                <a class="text-blue-300 hover:text-blue-400 transition-all duration-200" target="_blank"
                     href="https://developer.themoviedb.org/docs/getting-started">The Movie
                     Database</a>.
             </p>

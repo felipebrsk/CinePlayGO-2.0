@@ -3,9 +3,7 @@
         <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 py-6">
             <ul class="flex items-center flex-col md:flex-row gap-6">
                 <li>
-                    <a href="{{ route('home') }}">
-                        <img src="https://placehold.co/600x400/EEE/31343C" class="w-16 h-16" alt="logo" />
-                    </a>
+                    @include('components.logo')
                 </li>
                 <li>
                     <a href="{{ route('home') }}" class="hover:text-gray-300 transition duration-200">Home</a>
@@ -14,7 +12,9 @@
                     <a href="{{ route('movies.index') }}" class="hover:text-gray-300 transition duration-200">Movies</a>
                 </li>
                 <li>
-                    <a href="#" class="hover:text-gray-300 transition duration-200">TV Shows</a>
+                    <a href="{{ route('tv-shows.index') }}" class="hover:text-gray-300 transition duration-200">
+                        TV Shows
+                    </a>
                 </li>
                 <li>
                     <a href="#" class="hover:text-gray-300 transition duration-200">Actors</a>

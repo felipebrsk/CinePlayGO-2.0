@@ -61,6 +61,24 @@ class TvShowService
     }
 
     /**
+     * Get filtered tv shows.
+     *
+     * @param array<string, string> $filters
+     * @return \Illuminate\Support\Collection<string, never>
+     */
+    public function filteredTvShows(array $filters): Collection
+    {
+        $rank = $filters['rank'];
+        $page = $filters['page'];
+
+        $response = $this->tmdbClient->get("/tv/{$rank}", [
+            'page' => $page,
+        ]);
+
+        return $this->formatTvShows($response['results']);
+    }
+
+    /**
      * Format tv shows with genres.
      *
      * @param array<string, mixed> $tvShows
@@ -70,7 +88,7 @@ class TvShowService
     {
         return collect($tvShows)->map(function (array $tvShow) {
             $genresFormat = collect($tvShow['genre_ids'])->mapWithKeys(function (int $values) {
-                return [$values = $this->genres->get($values)];
+                return [$values => $this->genres->get($values)];
             })->implode(', ');
 
             $image = $tvShow['poster_path'] ?

@@ -15,19 +15,26 @@
                     <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
             </select>
+
+            <select wire:model.live="loadType"
+                class="w-auto p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                @foreach ($loadTypes as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 
     <section class="border-t border-gray-700">
         <h2
             class="uppercase tracking-wider text-orange-500 xl:text-4xl lg:text-2xl md:text-xl sm:text-lg text-base font-semibold text-center mt-4">
-            {{ $ranks[$this->selectedRank] }} movies
+            {{ $ranks[$this->selectedRank] }} tv shows
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-4"
-            id="movies-grid">
-            @foreach ($movies as $movie)
+            id="tv-shows-grid">
+            @foreach ($tvShows as $tvShow)
                 <div class="flex justify-center">
-                    <x-movie-card :movie="$movie" />
+                    <x-tv-show-card :tvShow="$tvShow" />
                 </div>
             @endforeach
 
@@ -75,7 +82,7 @@
 
             debounceTimer = setTimeout(function() {
                 const loadMoreTrigger = document.getElementById('load-more-trigger');
-                const moviesGrid = document.getElementById('movies-grid');
+                const moviesGrid = document.getElementById('tv-shows-grid');
 
                 if (loadMoreTrigger && moviesGrid && (loadMoreTrigger.getBoundingClientRect().top <= window
                         .innerHeight)) {

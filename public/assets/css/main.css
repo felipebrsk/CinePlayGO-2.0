@@ -7,7 +7,7 @@
     body {
         height: 100%;
         margin: 0;
-        font-family: Arial, sans-serif; /* Replace with your preferred font */
+        font-family: Arial, sans-serif;
     }
     main {
         flex: 1;

@@ -4,16 +4,16 @@ namespace App\Livewire;
 
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
-use App\Services\{GenreService, MovieService};
+use App\Services\{GenreService, TvShowService};
 
-class MovieSelection extends BaseSelection
+class TvShowSelection extends BaseSelection
 {
     /**
-     * The filtered movies.
+     * The filtered tv shows.
      *
      * @var \Illuminate\Support\Collection
      */
-    public $movies = [];
+    public $tvShows = [];
 
     /**
      * The available ranks.
@@ -22,24 +22,24 @@ class MovieSelection extends BaseSelection
      */
     public $ranks = [
         'popular' => 'Popular',
-        'upcoming' => 'Upcoming',
         'top_rated' => 'Top Rated',
-        'now_playing' => 'Now Playing',
+        'on_the_air' => 'On The Air',
+        'airing_today' => 'Airling Today',
     ];
 
     /**
      * Mount the component.
      *
-     * @param \App\Services\MovieService $movieService
+     * @param \App\Services\TvShowService $tvShowService
      * @param \App\Services\GenreService $genreService
      * @return void
      */
-    public function mount(MovieService $movieService, GenreService $genreService): void
+    public function mount(TvShowService $tvShowService, GenreService $genreService): void
     {
         $this->genreService = $genreService;
-        $this->movieService = $movieService;
+        $this->tvShowService = $tvShowService;
         $this->fetchGenres();
-        $this->fetchMovies();
+        $this->fetchTvShows();
     }
 
     /**
@@ -49,24 +49,24 @@ class MovieSelection extends BaseSelection
      */
     public function fetchGenres(): void
     {
-        $this->genres = $this->getGenreService()->movieGenres();
+        $this->genres = $this->getGenreService()->tvShowGenres();
     }
 
     /**
-     * Fetch the movies with filters.
+     * Fetch the tv shows with filters.
      *
      * @return void
      */
-    public function fetchMovies(): void
+    public function fetchTvShows(): void
     {
-        $this->movies = $this->getMovieService()->filteredMovies([
+        $this->tvShows = $this->getTvShowService()->filteredTvShows([
             'rank' => $this->selectedRank,
             'page' => $this->page,
         ]);
 
         if ($this->selectedGenre) {
-            $this->movies = $this->movies->filter(function (Collection $movie) {
-                return in_array($this->selectedGenre, $movie['genre_ids']);
+            $this->tvShows = $this->tvShows->filter(function (Collection $tvShow) {
+                return in_array($this->selectedGenre, $tvShow['genre_ids']);
             });
         }
     }
@@ -80,20 +80,20 @@ class MovieSelection extends BaseSelection
     {
         $this->page++;
 
-        $newMovies = $this->getMovieService()->filteredMovies([
+        $newTvShows = $this->getTvShowService()->filteredTvShows([
             'rank' => $this->selectedRank,
             'page' => $this->page,
         ]);
 
-        $allMovies = $this->movies->merge($newMovies);
+        $allTvShows = $this->tvShows->merge($newTvShows);
 
         if ($this->selectedGenre) {
-            $allMovies = $allMovies->filter(function (Collection $movie) {
+            $allTvShows = $allTvShows->filter(function (Collection $movie) {
                 return in_array($this->selectedGenre, $movie['genre_ids']);
             });
         }
 
-        $this->movies = $allMovies;
+        $this->tvShows = $allTvShows;
     }
 
     /**
@@ -103,6 +103,6 @@ class MovieSelection extends BaseSelection
      */
     public function render(): View
     {
-        return view('livewire.movie-selection');
+        return view('livewire.tv-show-selection');
     }
 }
