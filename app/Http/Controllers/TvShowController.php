@@ -10,7 +10,7 @@ class TvShowController extends Controller
     /**
      * The movie service.
      *
-     * @var \App\Services\MovieService
+     * @var \App\Services\TvShowService
      */
     private $tvShowService;
 
@@ -40,6 +40,12 @@ class TvShowController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $details = $this->tvShowService->details($id);
+
+        return view('tv-shows.show', [
+            'tvShow' => $details,
+            'similars' => $this->tvShowService->formatTvShows($details['similar']['results']),
+            'recommendations' => $this->tvShowService->formatTvShows($details['recommendations']['results'])
+        ]);
     }
 }

@@ -79,6 +79,22 @@ class TvShowService
     }
 
     /**
+     * Get a tv show details.
+     *
+     * @param string $id
+     * @return array<string, mixed>
+     */
+    public function details(string $id): array
+    {
+        return $this->tmdbClient->get(
+            "tv/{$id}",
+            [
+                'append_to_response' => 'credits,videos,images,similar,reviews,recommendations',
+            ],
+        );
+    }
+
+    /**
      * Format tv shows with genres.
      *
      * @param array<string, mixed> $tvShows
