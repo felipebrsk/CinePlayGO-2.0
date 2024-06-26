@@ -39,7 +39,7 @@ class MovieSelection extends BaseSelection
         $this->genreService = $genreService;
         $this->movieService = $movieService;
         $this->fetchGenres();
-        $this->fetchMovies();
+        $this->fetch();
     }
 
     /**
@@ -57,7 +57,7 @@ class MovieSelection extends BaseSelection
      *
      * @return void
      */
-    public function fetchMovies(): void
+    public function fetch(): void
     {
         $this->movies = $this->getMovieService()->filteredMovies([
             'rank' => $this->selectedRank,

@@ -39,7 +39,7 @@ class TvShowSelection extends BaseSelection
         $this->genreService = $genreService;
         $this->tvShowService = $tvShowService;
         $this->fetchGenres();
-        $this->fetchTvShows();
+        $this->fetch();
     }
 
     /**
@@ -57,7 +57,7 @@ class TvShowSelection extends BaseSelection
      *
      * @return void
      */
-    public function fetchTvShows(): void
+    public function fetch(): void
     {
         $this->tvShows = $this->getTvShowService()->filteredTvShows([
             'rank' => $this->selectedRank,

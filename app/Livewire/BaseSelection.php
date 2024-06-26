@@ -146,7 +146,7 @@ class BaseSelection extends Component
     {
         $this->selectedGenre = $genre;
 
-        $this->fetchTvShows();
+        $this->fetch();
     }
 
     /**
@@ -159,7 +159,7 @@ class BaseSelection extends Component
     {
         $this->selectedRank = $rank;
 
-        $this->fetchTvShows();
+        $this->fetch();
     }
 
     /**
