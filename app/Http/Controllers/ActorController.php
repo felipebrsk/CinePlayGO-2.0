@@ -40,6 +40,10 @@ class ActorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $details = $this->actorService->details($id);
+
+        return view('actors.show', [
+            'actor' => $details,
+        ]);
     }
 }

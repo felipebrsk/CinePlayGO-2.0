@@ -8,11 +8,6 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 -   [ ] Study about livewire components test;
 -   [ ] Create log in and register system;
 -   [ ] Create an user watchlist;
--   [ ] Create actors details page:
-    -   [ ] Use the known_for;
-    -   [ ] Use the external ids to show actor social medias;
-    -   [ ] Use the latest jobs;
-    -   [ ] Check about changes and images.
 
 ### Completed Column ✓
 
@@ -32,4 +27,9 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
     -   [x] Create a method to retrieve a tv show details by id;
     -   [x] Create method to format tv shows to application use.
 -   [x] Create TV shows page;
--   [x] Create actors page.
+-   [x] Create actors page;
+-   [x] Create actors details page:
+    -   [x] Use the known_for;
+    -   [x] Use the external ids to show actor social medias;
+    -   <del>[ ] Use the latest jobs;</del>
+    -   [x] Check about changes and images.
