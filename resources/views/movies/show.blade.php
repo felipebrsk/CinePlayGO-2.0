@@ -1,13 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-    {{-- @php
-        dd($movie);
-    @endphp --}}
     <div class="w-full container mx-auto flex flex-col gap-8 sm:px-8 px-2">
         <section class="flex flex-col md:flex-row items-center pt-8">
-            <img alt="{{ $movie['title'] }}" src="{{ 'https://image.tmdb.org/t/p/w342/' . $movie['poster_path'] }}"
-                class="w-full max-w-[30rem]" />
+            <img alt="{{ $movie['title'] }}" src="{{ 'https://image.tmdb.org/t/p/w780/' . $movie['poster_path'] }}"
+                class="w-full max-w-[30rem] rounded-md" />
             <div class="flex flex-col md:ml-8 mt-4 md:mt-0 gap-6">
                 <h2 class="text-4xl font-semibold">{{ $movie['title'] }}</h2>
                 <div class="flex items-center text-gray-400 text-sm gap-1.5">
@@ -111,7 +108,7 @@
                 @foreach (collect($movie['credits']['cast'])->sortByDesc('popularity')->take(10) as $cast)
                     <div class="flex flex-col gap-2">
                         <a href="#">
-                            <img src="{{ 'https://image.tmdb.org/t/p/w342/' . $cast['profile_path'] }}" alt="Atores"
+                            <img src="{{ 'https://image.tmdb.org/t/p/original/' . $cast['profile_path'] }}" alt="Atores"
                                 class="hover:opacity-75 transition ease-in-out duration-150 rounded-lg w-full">
                         </a>
                         <div>
@@ -142,17 +139,14 @@
                     @endif
                 @endforeach
                 <div style="background-color: rgba(0, 0, 0, .5);"
-                    class="fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto" x-show="isOpen">
-                    <div class="lg:px-32 rounded-lg overflow-y-auto">
-                        <div class="bg-gray-900 rounded">
-                            <div class="flex justify-end pr-4 pt-2">
-                                <button @click="isOpen = false" @click.away="isOpen = false"
-                                    @keydown.escape.window="isOpen = false"
-                                    class="text-3xl leading-none hover:text-gray-300">&times;</button>
-                            </div>
-                            <div class="modal-body px-8 py-8">
-                                <img :src="image" alt="poster">
-                            </div>
+                    class="fixed top-0 left-0 w-full h-full flex items-center justify-center shadow-lg" x-show="isOpen">
+                    <div class="bg-gray-900 rounded" @click.away="isOpen = false">
+                        <div class="flex justify-end pr-4 pt-2">
+                            <button @click="isOpen = false" @keydown.escape.window="isOpen = false"
+                                class="text-3xl leading-none hover:text-gray-300 transition duration-200">&times;</button>
+                        </div>
+                        <div class="p-8">
+                            <img :src="image" alt="poster" class="max-w-[50vw] rounded">
                         </div>
                     </div>
                 </div>

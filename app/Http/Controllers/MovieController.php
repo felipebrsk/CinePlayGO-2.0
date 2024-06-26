@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MovieService;
+use Illuminate\Contracts\View\View;
 
 class MovieController extends Controller
 {
@@ -26,19 +27,21 @@ class MovieController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(): View
     {
-        //
+        return view('movies.index');
     }
 
     /**
      * Display the specified resource.
      *
      * @param string $id
-     * @return \
+     * @return \Illuminate\Contracts\View\View
      */
-    public function show(string $id)
+    public function show(string $id): View
     {
         $details = $this->movieService->details($id);
 

@@ -8,13 +8,16 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="hover:text-gray-300">Movies</a>
+                    <a href="{{ route('home') }}" class="hover:text-gray-300 transition duration-200">Home</a>
                 </li>
                 <li>
-                    <a href="#" class="hover:text-gray-300">TV Shows</a>
+                    <a href="{{ route('movies.index') }}" class="hover:text-gray-300 transition duration-200">Movies</a>
                 </li>
                 <li>
-                    <a href="#" class="hover:text-gray-300">Actors</a>
+                    <a href="#" class="hover:text-gray-300 transition duration-200">TV Shows</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-gray-300 transition duration-200">Actors</a>
                 </li>
             </ul>
             <div class="items-center flex-col md:flex-row gap-4 flex">
@@ -91,8 +94,10 @@
                 </div>
             </div>
 
-            <div x-data="{ profileOpen: false }" @keydown.escape.window="profileOpen = false"
-                class="fixed top-0 right-0 md:hidden flex items-center mr-4 mt-4">
+            <div x-data="{ profileOpen: false, lastScrollPos: 0, scrollThreshold: 100 }" @keydown.escape.window="profileOpen = false"
+                @scroll.window="lastScrollPos = window.scrollY"
+                class="fixed top-0 right-0 md:hidden flex items-center mr-4 mt-4"
+                :class="{ 'hidden': lastScrollPos > scrollThreshold }">
                 <button @click="profileOpen = !profileOpen" class="flex items-center gap-2 outline-none">
                     <svg x-show="!profileOpen" class="w-8 h-8 text-gray-500 cursor-pointer" fill="none"
                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"

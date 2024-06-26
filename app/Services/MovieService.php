@@ -61,6 +61,24 @@ class MovieService
     }
 
     /**
+     * Get filtered movies.
+     *
+     * @param array<string, string> $filters
+     * @return \Illuminate\Support\Collection<string, never>
+     */
+    public function filteredMovies(array $filters): Collection
+    {
+        $rank = $filters['rank'];
+        $page = $filters['page'];
+
+        $response = $this->tmdbClient->get("/movie/{$rank}", [
+            'page' => $page,
+        ]);
+
+        return $this->formatMovies($response['results']);
+    }
+
+    /**
      * Get a movie details.
      *
      * @param string $id
@@ -86,11 +104,11 @@ class MovieService
     {
         return collect($movies)->map(function (array $movie) {
             $genresFormat = collect($movie['genre_ids'])->mapWithKeys(function (int $values) {
-                return [$values = $this->genres->get($values)];
+                return [$values => $this->genres->get($values)];
             })->implode(', ');
 
             $image = $movie['poster_path'] ?
-                'https://image.tmdb.org/t/p/w342' . $movie['poster_path'] :
+                'https://image.tmdb.org/t/p/w500' . $movie['poster_path'] :
                 'https://placehold.co/400x600';
 
             return collect($movie)->merge([
