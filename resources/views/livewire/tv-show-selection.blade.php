@@ -2,7 +2,7 @@
     <div class="mb-4">
         <div class="flex items-center sm:flex-row flex-col w-full gap-4">
             <select wire:model.live="selectedGenre"
-                class="w-auto p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                class="sm:w-auto w-full p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 <option value="">All Genres</option>
                 @foreach ($genres as $id => $name)
                     <option value="{{ $id }}">{{ $name }}</option>
@@ -10,14 +10,14 @@
             </select>
 
             <select wire:model.live="selectedRank"
-                class="w-auto p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                class="sm:w-auto w-full p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 @foreach ($ranks as $value => $label)
                     <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
             </select>
 
             <select wire:model.live="loadType"
-                class="w-auto p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                class="sm:w-auto w-full p-2 border bg-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 @foreach ($loadTypes as $value => $label)
                     <option value="{{ $value }}">{{ $label }}</option>
                 @endforeach
