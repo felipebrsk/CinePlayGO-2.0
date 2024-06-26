@@ -37,30 +37,6 @@ class TvShowService
     }
 
     /**
-     * Get now playing tv shows.
-     *
-     * @return \Illuminate\Support\Collection<string, never>
-     */
-    public function nowPlaying(): Collection
-    {
-        $response = $this->tmdbClient->get('tv/airing_today');
-
-        return $this->formatTvShows($response['results']);
-    }
-
-    /**
-     * Get popular tv shows.
-     *
-     * @return \Illuminate\Support\Collection<string, never>
-     */
-    public function popular(): Collection
-    {
-        $response = $this->tmdbClient->get('tv/popular');
-
-        return $this->formatTvShows($response['results']);
-    }
-
-    /**
      * Get filtered tv shows.
      *
      * @param array<string, string> $filters

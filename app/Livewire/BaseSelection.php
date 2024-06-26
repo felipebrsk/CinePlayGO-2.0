@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Services\{GenreService, TvShowService, MovieService};
+use App\Services\{ActorService, GenreService, TvShowService, MovieService};
 
 class BaseSelection extends Component
 {
@@ -13,6 +13,13 @@ class BaseSelection extends Component
      * @var \App\Services\MovieService
      */
     protected $movieService;
+
+    /**
+     * The actor service.
+     *
+     * @var \App\Services\ActorService
+     */
+    protected $actorService;
 
     /**
      * The tv show service.
@@ -99,6 +106,20 @@ class BaseSelection extends Component
         }
 
         return $this->genreService;
+    }
+
+    /**
+     * Get the instance of actor service.
+     *
+     * @return \App\Services\ActorService
+     */
+    protected function getActorService(): ActorService
+    {
+        if (!$this->actorService) {
+            $this->actorService = app(ActorService::class);
+        }
+
+        return $this->actorService;
     }
 
     /**

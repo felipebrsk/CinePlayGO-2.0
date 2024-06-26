@@ -16,7 +16,7 @@ class HomeController extends Controller
     /**
      * The tv shows service.
      *
-     * @var \App\Services\MovieService
+     * @var \App\Services\TvShowService
      */
     private $tvShowService;
 
@@ -41,8 +41,14 @@ class HomeController extends Controller
     public function __invoke()
     {
         return view('home', [
-            'nowPlayingMovies' => $this->movieService->nowPlaying(),
-            'nowPlayingTvShows' => $this->tvShowService->nowPlaying(),
+            'nowPlayingMovies' => $this->movieService->filteredMovies([
+                'rank' => 'now_playing',
+                'page' => 1,
+            ]),
+            'nowPlayingTvShows' => $this->tvShowService->filteredTvShows([
+                'rank' => 'airing_today',
+                'page' => 1,
+            ]),
         ]);
     }
 }

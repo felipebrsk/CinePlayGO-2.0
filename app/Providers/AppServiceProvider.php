@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Client\TmdbClient;
 use Illuminate\Support\ServiceProvider;
-use App\Services\{GenreService, MovieService};
+use App\Services\{ActorService, GenreService, MovieService};
 use Illuminate\Contracts\Foundation\Application;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(MovieService::class, function (Application $app) {
             return new MovieService($app->make(TmdbClient::class), $app->make(GenreService::class));
+        });
+
+        $this->app->bind(ActorService::class, function (Application $app) {
+            return new ActorService($app->make(TmdbClient::class));
         });
     }
 

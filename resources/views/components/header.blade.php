@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="hover:text-gray-300 transition duration-200">Actors</a>
+                    <a href="{{ route('actors.index') }}" class="hover:text-gray-300 transition duration-200">Actors</a>
                 </li>
             </ul>
             <div class="items-center flex-col md:flex-row gap-4 flex">

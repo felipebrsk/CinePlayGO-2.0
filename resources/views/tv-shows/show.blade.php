@@ -80,7 +80,7 @@
                 <div x-data="{ trailerOpen: false }">
                     @if (count($tvShow['videos']['results']) > 0)
                         <button @click="trailerOpen = true"
-                            class="mt-2 flex items-center bg-orange-500 text-white rounded font-semibold p-4 hover:bg-orange-600 transition ease-in-out duration-150">
+                            class="mt-2 gap-1 flex items-center bg-orange-500 text-white rounded font-semibold p-4 hover:bg-orange-600 transition ease-in-out duration-150">
                             <svg class="w-6 fill-current" viewBox="0 0 24 24">
                                 <path d="M0 0h24v24H0z" fill="none" />
                                 <path

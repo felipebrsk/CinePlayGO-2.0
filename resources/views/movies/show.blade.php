@@ -63,9 +63,9 @@
                     </p>
                 </div>
                 <div x-data="{ trailerOpen: false }">
-                    @if (count($tvShow['videos']['results']) > 0)
+                    @if (count($movie['videos']['results']) > 0)
                         <button @click="trailerOpen = true"
-                            class="mt-2 flex items-center bg-orange-500 text-white rounded font-semibold p-4 hover:bg-orange-600 transition ease-in-out duration-150">
+                            class="mt-2 flex items-center gap-1 bg-orange-500 text-white rounded font-semibold p-4 hover:bg-orange-600 transition ease-in-out duration-150">
                             <svg class="w-6 fill-current" viewBox="0 0 24 24">
                                 <path d="M0 0h24v24H0z" fill="none" />
                                 <path
@@ -88,7 +88,7 @@
                                         <div class="p-8">
                                             <div class="overflow-hidden relative" style="padding-top: 56.25%">
                                                 <iframe class="absolute top-0 left-0 w-full h-full"
-                                                    src="https://www.youtube.com/embed/{{ $tvShow['videos']['results'][0]['key'] }}"
+                                                    src="https://www.youtube.com/embed/{{ $movie['videos']['results'][0]['key'] }}"
                                                     style="border:0;" allow="autoplay; encrypted-media"
                                                     allowfullscreen></iframe>
                                             </div>

@@ -37,30 +37,6 @@ class MovieService
     }
 
     /**
-     * Get now playing movies.
-     *
-     * @return \Illuminate\Support\Collection<string, never>
-     */
-    public function nowPlaying(): Collection
-    {
-        $response = $this->tmdbClient->get('movie/now_playing');
-
-        return $this->formatMovies($response['results']);
-    }
-
-    /**
-     * Get popular movies.
-     *
-     * @return \Illuminate\Support\Collection<string, never>
-     */
-    public function popular(): Collection
-    {
-        $response = $this->tmdbClient->get('movie/popular');
-
-        return $this->formatMovies($response['results']);
-    }
-
-    /**
      * Get filtered movies.
      *
      * @param array<string, string> $filters
