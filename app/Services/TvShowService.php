@@ -84,7 +84,7 @@ class TvShowService
             })->implode(', ');
 
             $image = $tvShow['poster_path'] ?
-                'https://image.tmdb.org/t/p/w342' . $tvShow['poster_path'] :
+                'https://image.tmdb.org/t/p/original' . $tvShow['poster_path'] :
                 'https://placehold.co/400x600';
 
             return collect($tvShow)->merge([

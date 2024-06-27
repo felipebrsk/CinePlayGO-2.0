@@ -3,7 +3,7 @@
 @section('content')
     <div class="w-full container mx-auto flex flex-col gap-8 sm:px-8 px-2">
         <section class="flex flex-col md:flex-row items-center pt-8">
-            <img alt="{{ $tvShow['name'] }}" src="{{ 'https://image.tmdb.org/t/p/w780/' . $tvShow['poster_path'] }}"
+            <img alt="{{ $tvShow['name'] }}" src="{{ 'https://image.tmdb.org/t/p/original/' . $tvShow['poster_path'] }}"
                 class="w-full max-w-[30rem] rounded-md" />
             <div class="flex flex-col md:ml-8 mt-4 md:mt-0 gap-3">
                 <a href={{ $tvShow['homepage'] }} target="_blank"
@@ -190,9 +190,6 @@
                             <h3 class="text-lg font-semibold hover:text-gray-300">
                                 {{ $season['name'] }}
                             </h3>
-                            <p class="text-sm text-gray-400">{{ $season['air_date'] }}</p>
-                            <p class="text-sm">{{ $season['overview'] }}</p>
-                            <p class="text-sm">Episodes: {{ $season['episode_count'] }}</p>
                             <p class="text-sm flex gap-1">
                                 <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24">
                                     <path
@@ -200,6 +197,9 @@
                                 </svg>
                                 {{ number_format($season['vote_average'], 1) }}
                             </p>
+                            <p class="text-sm text-gray-400">{{ $season['air_date'] }}</p>
+                            <p class="text-sm">{{ $season['overview'] }}</p>
+                            <p class="text-sm">Episodes: {{ $season['episode_count'] }}</p>
                         </div>
                     </div>
                 @endforeach

@@ -145,10 +145,13 @@ class ActorService
         return collect($crews)->map(function (array $crew) {
             if (isset($crew['release_date'])) {
                 $date = Carbon::parse($crew['release_date'])->format('d M, Y');
+                $sort = $crew['release_date'];
             } elseif (isset($crew['first_air_date'])) {
                 $date = Carbon::parse($crew['first_air_date'])->format('d M, Y');
+                $sort = $crew['first_air_date'];
             } else {
                 $date = 'Future';
+                $sort = 'Future';
             }
 
             $name = $crew['media_type'] === 'tv' ? $crew['name'] : $crew['title'];
@@ -159,8 +162,9 @@ class ActorService
                 'media_type' => $crew['media_type'],
                 'job' => $crew['job'],
                 'date' => $date,
+                'sort' => $sort,
             ];
-        });
+        })->sortByDesc('sort');
     }
 
     /**
@@ -185,10 +189,13 @@ class ActorService
 
             if (isset($cast['release_date'])) {
                 $date = Carbon::parse($cast['release_date'])->format('d M, Y');
+                $sort = $cast['release_date'];
             } elseif (isset($cast['first_air_date'])) {
                 $date = Carbon::parse($cast['first_air_date'])->format('d M, Y');
+                $sort = $cast['first_air_date'];
             } else {
                 $date = 'Future';
+                $sort = 'Future';
             }
 
             return [
@@ -199,8 +206,9 @@ class ActorService
                 'media_type' => $cast['media_type'],
                 'character' => $cast['character'],
                 'date' => $date,
+                'sort' => $sort,
             ];
-        });
+        })->sortByDesc('sort');
     }
 
     /**

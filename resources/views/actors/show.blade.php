@@ -64,19 +64,30 @@
             </div>
             <div class="flex flex-col gap-4">
                 <h2 class="text-4xl mt-4 md:mt-0 font-semibold">{{ $actor['name'] }}</h2>
-                <div class="flex flex-wrap items-center text-gray-400 text-sm gap-2">
-                    <svg class="fill-current text-gray-400 hover:text-white w-4" viewBox="0 0 448 512">
+                <div class="flex flex-wrap items-center text-gray-400 text-sm gap-1">
+                    <svg class="fill-current text-gray-400 hover:text-white w-4" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                         <path
-                            d="M448 384c-28.02 0-31.26-32-74.5-32-43.43 0-46.825 32-74.75 32-27.695 0-31.454-32-74.75-32-42.842 0-47.218 32-74.5 32-28.148 0-31.202-32-74.75-32-43.547 0-46.653 32-74.75 32v-80c0-26.5 21.5-48 48-48h16V112h64v144h64V112h64v144h64V112h64v144h16c26.5 0 48 21.5 48 48v80zm0 128H0v-96c43.356 0 46.767-32 74.75-32 27.951 0 31.253 32 74.75 32 42.843 0 47.217-32 74.5-32 28.148 0 31.201 32 74.75 32 43.357 0 46.767-32 74.75-32 27.488 0 31.252 32 74.5 32v96zM96 96c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40z" />
+                            d="M2.399 12.149c-.129-.246-.397-.756-.397-1.631 0-2.009 1.629-3.479 3.242-3.518h13.513c1.803.091 3.243 1.646 3.243 3.519 0 .592-.145 1.148-.4 1.636 1.389.448 2.4 1.794 2.4 3.364 0 .962-.383 1.831-1 2.46v6.021h-22v-6.022c-.429-.438-1-1.37-1-2.46 0-1.655 1.107-2.944 2.399-3.369zm18.601 6.824l-.405.025c-.775 0-1.541-.27-2.154-.79-.576.488-1.333.789-2.155.789-.812 0-1.566-.295-2.142-.779-.581.487-1.341.78-2.136.78-.807 0-1.575-.292-2.149-.78-.586.491-1.346.78-2.137.78-.775 0-1.526-.26-2.16-.79-.561.479-1.328.79-2.154.79l-.408-.025v3.027h18v-3.027zm-17.708-4.973c-.627.049-1.243.635-1.288 1.421-.051.887.632 1.585 1.454 1.576 1.176-.014 1.915-.86 2.117-1.997.217.88.986 1.975 2.145 1.996 1.156.021 1.99-.959 2.161-1.958l.008-.038c.199 1.04.99 1.996 2.109 1.996 1.155 0 1.917-.872 2.172-1.996.248 1.138 1.035 1.994 2.117 1.997 1.108.003 1.955-.928 2.203-1.997.188.828.804 1.985 2.051 1.998.759.008 1.46-.65 1.46-1.483 0-.837-.649-1.481-1.318-1.517l-17.391.002zm10.953-2c1.108-.009 1.997-.931 2.245-2 .188.828.804 1.985 2.051 1.998.759.008 1.46-.65 1.46-1.483 0-.837-.649-1.481-1.318-1.517l-13.391.002c-.627.049-1.243.635-1.288 1.421-.051.887.632 1.585 1.454 1.576 1.176-.014 1.915-.86 2.117-1.997.217.88 1.002 1.991 2.161 2h.023c1.199-.008 2.191-1.326 2.241-2 .052.659.983 1.992 2.219 2h.026zm-2.245-9.146c-.454-1.947-2.479-.955-1.531.577.765 1.237 1.095 1.951 1.126 3.103-1.378-1.716-3.597-2.838-3.595-4.519.002-1.287.941-2.014 2-2.014.705 0 1.522.256 2 .882.485-.6 1.329-.887 2-.882 1.06.008 1.998.669 2 2.014.002 1.681-2.146 2.784-3.595 4.519.031-1.152.361-1.866 1.126-3.103.948-1.532-1.089-2.508-1.531-.577z" />
                     </svg>
-                    <span>
-                        {{ $actor['birthday'] }} ({{ $actor['age'] }} years old) in
-                        {!! $actor['place_of_birth'] !!}
+                    <span class="flex items-center">
+                        {{ $actor['birthday'] }}
+                        @if ($actor['deathday'])
+                            &nbsp;-
+                            <span class="flex items-center">
+                                <svg class="w-4 fill-current ml-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="90" y="20" width="20" height="160" />
+                                    <rect x="50" y="80" width="100" height="20" />
+                                </svg>
+                                {{ $actor['deathday'] }}
+                            </span>
+                        @endif
+                        &nbsp;({{ $actor['age'] }} years old) in {!! $actor['place_of_birth'] !!}
                     </span>
                 </div>
 
                 <p class="text-gray-300 mt-2">
-                    {{ $actor['biography'] }}
+                    {!! $actor['biography'] !!}
                 </p>
 
                 <h4 class="font-semibold">Known For</h4>
@@ -100,36 +111,48 @@
 
         <section class="border-t border-gray-700 mt-4">
             <h2 class="text-4xl font-semibold mt-2">Casts</h2>
-            <ul class="list-disc leading-loose pl-5 mt-4">
-                @foreach ($actor['casts'] as $cast)
-                    <li>
-                        {{ $cast['date'] }} &middot;
-                        <a href="{{ $cast['link'] }}" class="underline hover:text-blue-400 transition duration-200"
-                            target="_blank">
-                            <strong>
-                                {{ $cast['name'] }}
-                            </strong>
-                        </a> as {{ $cast['character'] === '' ? 'Guest' : $cast['character'] }}
-                    </li>
-                @endforeach
-            </ul>
+            @if (count($actor['casts']) > 0)
+                <ul class="list-disc leading-loose pl-5 mt-4">
+                    @foreach ($actor['casts'] as $cast)
+                        <li>
+                            {{ $cast['date'] }} &middot;
+                            <a href="{{ $cast['link'] }}" class="underline hover:text-blue-400 transition duration-200"
+                                target="_blank">
+                                <strong>
+                                    {{ $cast['name'] }}
+                                </strong>
+                            </a> as {{ $cast['character'] === '' ? 'Not defined yet' : $cast['character'] }}
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-lg text-gray-400 mt-2">
+                    No one casts found for {{ $actor['name'] }}.
+                </p>
+            @endif
         </section>
 
         <section class="border-t border-gray-700 mt-4">
             <h2 class="text-4xl font-semibold mt-2">Crews</h2>
-            <ul class="list-disc leading-loose pl-5 mt-4">
-                @foreach ($actor['crews'] as $crew)
-                    <li>
-                        {{ $crew['date'] }} &middot;
-                        <strong>
-                            <span>
-                                {{ $crew['name'] }}
-                            </span>
-                        </strong>
-                        as {{ $crew['job'] }}
-                    </li>
-                @endforeach
-            </ul>
+            @if (count($actor['crews']) > 0)
+                <ul class="list-disc leading-loose pl-5 mt-4">
+                    @foreach ($actor['crews'] as $crew)
+                        <li>
+                            {{ $crew['date'] }} &middot;
+                            <strong>
+                                <span>
+                                    {{ $crew['name'] }}
+                                </span>
+                            </strong>
+                            as {{ $crew['job'] }}
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-lg text-gray-400 mt-2">
+                    No one crews found for {{ $actor['name'] }}.
+                </p>
+            @endif
         </section>
     </div>
 @endsection
