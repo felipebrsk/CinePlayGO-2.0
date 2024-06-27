@@ -26,10 +26,7 @@
     </div>
 
     <section class="border-t border-gray-700">
-        <h2
-            class="uppercase tracking-wider text-orange-500 xl:text-4xl lg:text-2xl md:text-xl sm:text-lg text-base font-semibold text-center mt-4">
-            {{ $ranks[$this->selectedRank] }} tv shows
-        </h2>
+        @include('components.title', ['title' => $ranks[$this->selectedRank] . ' tv shows'])
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-4"
             id="tv-shows-grid">
             @foreach ($tvShows as $tvShow)

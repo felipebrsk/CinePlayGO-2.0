@@ -2,9 +2,7 @@
 @section('content')
     <div class="container mx-auto">
         <section class="py-3">
-            <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold sm:text-left text-center">
-                Now playing movies
-            </h2>
+            @include('components.title', ['title' => 'Now Playing'])
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4">
                 @foreach ($nowPlayingMovies as $movie)
                     <div class="flex justify-center">
@@ -14,9 +12,7 @@
             </div>
         </section>
         <section class="py-3 border-t border-gray-700">
-            <h2 class="uppercase tracking-wider text-orange-500 text-lg font-semibold sm:text-left text-center">
-                Now playing tv shows
-            </h2>
+            @include('components.title', ['title' => 'Now playing tv shows'])
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4">
                 @foreach ($nowPlayingTvShows as $tvShow)
                     <div class="flex justify-center">
