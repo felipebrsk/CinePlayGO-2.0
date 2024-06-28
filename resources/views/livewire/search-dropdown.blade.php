@@ -38,51 +38,12 @@
                 <ul>
                     @foreach ($searchResults as $result)
                         <li @if (!$loop->last) class="border-b border-gray-700" @endif>
-                            <a href="#"
+                            <a href={{ $result['url'] }}
                                 class="hover:bg-gray-700 px-3 py-3 flex items-center transition ease-in-out duration-150">
-                                @switch($result['media_type'])
-                                    @case('movie')
-                                        @if ($result['poster_path'])
-                                            <img src="https://image.tmdb.org/t/p/w92{{ $result['poster_path'] }}" alt="poster"
-                                                class="w-8">
-                                        @else
-                                            <img src="https://via.placeholder.com/50x75" alt="poster" class="w-8">
-                                        @endif
-                                        <span class="ml-4">
-                                            {{ $result['title'] }}
-                                        </span>
-                                    @break
-
-                                    @case('tv')
-                                        @if ($result['poster_path'])
-                                            <img src="https://image.tmdb.org/t/p/w92{{ $result['poster_path'] }}" alt="poster"
-                                                class="w-8">
-                                        @else
-                                            <img src="https://via.placeholder.com/50x75" alt="poster" class="w-8">
-                                        @endif
-                                        <span class="ml-4">
-                                            {{ $result['name'] }}
-                                        </span>
-                                    @break
-
-                                    @case('person')
-                                        @if ($result['profile_path'])
-                                            <img src="https://image.tmdb.org/t/p/w92{{ $result['profile_path'] }}"
-                                                alt="poster" class="w-8">
-                                        @else
-                                            <img src="https://via.placeholder.com/50x75" alt="poster" class="w-8">
-                                        @endif
-                                        <span class="ml-4">
-                                            {{ $result['name'] }}
-                                        </span>
-                                    @break
-
-                                    @default
-                                        <img src="https://via.placeholder.com/50x75" alt="poster" class="w-8">
-                                        <span class="ml-4">
-                                            Unknown name
-                                        </span>
-                                @endswitch
+                                <img src={{ $result['image'] }} alt="poster" class="w-8">
+                                <span class="ml-4">
+                                    {{ $result['name'] }}
+                                </span>
                             </a>
                         </li>
                     @endforeach

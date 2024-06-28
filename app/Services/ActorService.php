@@ -143,6 +143,17 @@ class ActorService
     public function formatCrews(array $crews): Collection
     {
         return collect($crews)->map(function (array $crew) {
+            if ($crew['media_type'] === 'tv') {
+                $name = $crew['name'];
+                $link = route('tv-shows.show', $crew['id']);
+            } elseif ($crew['media_type'] === 'movie') {
+                $name = $crew['title'];
+                $link = route('movies.show', $crew['id']);
+            } else {
+                $name = 'Untitled';
+                $link = '#';
+            }
+
             if (isset($crew['release_date'])) {
                 $date = Carbon::parse($crew['release_date'])->format('d M, Y');
                 $sort = $crew['release_date'];
@@ -154,8 +165,6 @@ class ActorService
                 $sort = 'Future';
             }
 
-            $name = $crew['media_type'] === 'tv' ? $crew['name'] : $crew['title'];
-
             return [
                 'id' => $crew['id'],
                 'name' => $name,
@@ -163,6 +172,7 @@ class ActorService
                 'job' => $crew['job'],
                 'date' => $date,
                 'sort' => $sort,
+                'link' => $link,
             ];
         })->sortByDesc('sort');
     }

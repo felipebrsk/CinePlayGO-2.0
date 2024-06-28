@@ -116,21 +116,27 @@
                 Images from {{ $movie['title'] }}
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
-                @foreach ($movie['images']['backdrops'] as $images)
-                    @if ($loop->index < 10)
-                        <div class="mt-8">
-                            <a @click.prevent="
+                @if (count($movie['images']['backdrops']) > 0)
+                    @foreach ($movie['images']['backdrops'] as $images)
+                        @if ($loop->index < 10)
+                            <div class="mt-8">
+                                <a @click.prevent="
                                 isOpen = true
                                 image='{{ 'https://image.tmdb.org/t/p/original/' . $images['file_path'] }}'
                             "
-                                href="#">
-                                <img src="{{ 'https://image.tmdb.org/t/p/w500/' . $images['file_path'] }}"
-                                    alt="Imagens do filme"
-                                    class="hover:opacity-75 transition ease-in-out duration-150 rounded-lg w-full">
-                            </a>
-                        </div>
-                    @endif
-                @endforeach
+                                    href="#">
+                                    <img src="{{ 'https://image.tmdb.org/t/p/w500/' . $images['file_path'] }}"
+                                        alt="Imagens do filme"
+                                        class="hover:opacity-75 transition ease-in-out duration-150 rounded-lg w-full">
+                                </a>
+                            </div>
+                        @endif
+                    @endforeach
+                @else
+                    <p class="text-lg text-gray-400 mt-4">
+                        No images was found.
+                    </p>
+                @endif
                 <div style="background-color: rgba(0, 0, 0, .5);"
                     class="fixed top-0 left-0 w-full h-full flex items-center justify-center shadow-lg" x-show="isOpen">
                     <div class="bg-gray-900 rounded" @click.away="isOpen = false">
@@ -166,11 +172,17 @@
                 Similar movies
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4">
-                @foreach ($similars as $similar)
-                    <div class="flex justify-center">
-                        <x-movie-card :movie="$similar" />
-                    </div>
-                @endforeach
+                @if (count($similars) > 0)
+                    @foreach ($similars as $similar)
+                        <div class="flex justify-center">
+                            <x-movie-card :movie="$similar" />
+                        </div>
+                    @endforeach
+                @else
+                    <p class="text-lg text-gray-400">
+                        No one similar movie was found.
+                    </p>
+                @endif
             </div>
         </section>
         <section class="py-6 border-t border-gray-700">
@@ -178,11 +190,17 @@
                 Recommendations
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4">
-                @foreach ($recommendations as $recommendation)
-                    <div class="flex justify-center">
-                        <x-movie-card :movie="$recommendation" />
-                    </div>
-                @endforeach
+                @if (count($recommendations) > 0)
+                    @foreach ($recommendations as $recommendation)
+                        <div class="flex justify-center">
+                            <x-movie-card :movie="$recommendation" />
+                        </div>
+                    @endforeach
+                @else
+                    <p class="text-lg text-gray-400">
+                        No one recommended movie was found.
+                    </p>
+                @endif
             </div>
         </section>
     </div>

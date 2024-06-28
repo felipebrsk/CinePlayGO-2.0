@@ -139,11 +139,14 @@
                     @foreach ($actor['crews'] as $crew)
                         <li>
                             {{ $crew['date'] }} &middot;
-                            <strong>
-                                <span>
-                                    {{ $crew['name'] }}
-                                </span>
-                            </strong>
+                            <a href="{{ $crew['link'] }}" class="underline hover:text-blue-400 transition duration-200"
+                                target="_blank">
+                                <strong>
+                                    <span>
+                                        {{ $crew['name'] }}
+                                    </span>
+                                </strong>
+                            </a>
                             as {{ $crew['job'] }}
                         </li>
                     @endforeach

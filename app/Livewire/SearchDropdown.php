@@ -55,10 +55,45 @@ class SearchDropdown extends Component
             $searchResults = $tmdbClient->get('search/multi', [
                 'query' => $this->search,
             ])['results'];
+
+            $searchResults = collect($searchResults)->map(function (array $item) {
+                switch ($item['media_type']) {
+                    case 'tv':
+                        $name = $item['name'];
+                        $image = "https://image.tmdb.org/t/p/w92/{$item['poster_path']}";
+                        $url = route('tv-shows.show', $item['id']);
+
+                        break;
+                    case 'movie':
+                        $name = $item['title'];
+                        $image = "https://image.tmdb.org/t/p/w92/{$item['poster_path']}";
+                        $url = route('movies.show', $item['id']);
+
+                        break;
+                    case 'person':
+                        $name = $item['name'];
+                        $image = "https://image.tmdb.org/t/p/w92/{$item['profile_path']}";
+                        $url = route('actors.show', $item['id']);
+
+                        break;
+                    default:
+                        $image = 'https://via.placeholder.com/50x75';
+                        $name = 'Unknown';
+                        $url = '#';
+
+                        break;
+                }
+
+                return [
+                    'name' => $name,
+                    'image' => $image,
+                    'url' => $url,
+                ];
+            })->take(7);
         }
 
         return view('livewire.search-dropdown', [
-            'searchResults' => collect($searchResults)->take(7),
+            'searchResults' => $searchResults,
         ]);
     }
 }
