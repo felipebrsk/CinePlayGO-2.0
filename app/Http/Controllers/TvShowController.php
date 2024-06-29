@@ -44,8 +44,9 @@ class TvShowController extends Controller
 
         return view('tv-shows.show', [
             'tvShow' => $details,
+            'providers' => $details['watch/providers']['results'],
             'similars' => $this->tvShowService->formatTvShows($details['similar']['results']),
-            'recommendations' => $this->tvShowService->formatTvShows($details['recommendations']['results'])
+            'recommendations' => $this->tvShowService->formatTvShows($details['recommendations']['results']),
         ]);
     }
 }

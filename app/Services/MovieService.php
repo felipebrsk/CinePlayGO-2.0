@@ -65,7 +65,7 @@ class MovieService
         return $this->tmdbClient->get(
             "movie/{$id}",
             [
-                'append_to_response' => 'credits,videos,images,similar,reviews,recommendations',
+                'append_to_response' => 'credits,videos,images,similar,reviews,recommendations,watch/providers',
             ],
         );
     }

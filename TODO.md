@@ -4,7 +4,6 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 
 ### To Do List
 
--   [ ] Work with the watch providers from movies and tv shows - recommend where the people can watch the movie;
 -   [ ] Study about livewire components test;
 -   [ ] Create log in and register system;
 -   [ ] Create an user watchlist.
@@ -35,4 +34,5 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
     -   [x] Check about changes and images.
 -   [x] Order actors casts and crew by time;
 -   [x] Empty crews or casts;
--   [x] About actors death.
+-   [x] About actors death;
+-   [x] Work with the watch providers from movies and tv shows - recommend where the people can watch the movie.

@@ -47,6 +47,7 @@ class MovieController extends Controller
 
         return view('movies.show', [
             'movie' => $details,
+            'providers' => $details['watch/providers']['results'],
             'similars' => $this->movieService->formatMovies($details['similar']['results']),
             'recommendations' => $this->movieService->formatMovies($details['recommendations']['results']),
         ]);
