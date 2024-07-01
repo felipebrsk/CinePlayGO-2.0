@@ -8,6 +8,7 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 -   [ ] Create an emblem (gamified) system;
 -   [ ] Think about coins of the platform;
 -   [ ] Create a title system;
+-   [ ] Create an user profile;
 -   [ ] Change title between pages (ex.: CinePlayGO 2.0 | Some Movie Title);
 -   [ ] Make social login.
 
