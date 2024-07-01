@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => 'Actors'])
 
 @section('content')
     <section class="container mx-auto py-8">

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => 'Watchlist'])
 
 @section('content')
     <div class="flex flex-col container mx-auto py-8">

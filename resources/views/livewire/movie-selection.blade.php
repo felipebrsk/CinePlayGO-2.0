@@ -26,7 +26,7 @@
     </div>
 
     <section class="border-t border-gray-700">
-        @include('components.title', ['title' => $ranks[$this->selectedRank] . ' tv shows'])
+        @include('components.title', ['title' => $ranks[$this->selectedRank] . ' movies'])
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-4"
             id="movies-grid">
             @foreach ($movies as $movie)

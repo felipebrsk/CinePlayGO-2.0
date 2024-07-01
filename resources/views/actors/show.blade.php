@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => $actor['name']])
 
 @section('content')
     <div class="container mx-auto p-4 w-full">

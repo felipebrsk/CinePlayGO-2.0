@@ -1,4 +1,5 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => 'Home'])
+
 @section('content')
     <div class="container mx-auto">
         <section class="py-3">

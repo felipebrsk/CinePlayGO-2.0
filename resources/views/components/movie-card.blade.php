@@ -1,7 +1,7 @@
-<div class="movie-card w-full sm:px-0 px-2">
+<div class="w-full sm:px-0 px-2">
     <a href="{{ route('movies.show', $movie['id']) }}">
         <img alt="movie poster" src="{{ $movie['poster_path'] }}"
-            class="hover:opacity-75 transition-all ease-in-out duration-150 object-contain rounded-md w-full">
+            class="object-cover hover:opacity-75 transition-all ease-in-out duration-150 rounded-md w-full h-[25rem]">
     </a>
     <div class="mt-2 text-gray-400 text-sm">
         <a href="{{ route('movies.show', $movie['id']) }}"

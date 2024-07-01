@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main', ['title' => $movie['title']])
 
 @section('content')
     <div class="w-full container mx-auto flex flex-col gap-8 sm:px-8 px-2">
