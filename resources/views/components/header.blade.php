@@ -6,18 +6,28 @@
                     @include('components.logo')
                 </li>
                 <li>
-                    <a href="{{ route('home') }}" class="hover:text-gray-300 transition duration-200">Home</a>
+                    <a href="{{ route('home') }}"
+                        class="{{ Route::currentRouteName() == 'home' ? 'text-orange-600' : '' }} hover:text-gray-300 transition duration-200">
+                        Home
+                    </a>
                 </li>
                 <li>
-                    <a href="{{ route('movies.index') }}" class="hover:text-gray-300 transition duration-200">Movies</a>
+                    <a href="{{ route('movies.index') }}"
+                        class="{{ Str::startsWith(Route::currentRouteName(), 'movies') ? 'text-orange-600' : '' }} hover:text-gray-300 transition duration-200">
+                        Movies
+                    </a>
                 </li>
                 <li>
-                    <a href="{{ route('tv-shows.index') }}" class="hover:text-gray-300 transition duration-200">
+                    <a href="{{ route('tv-shows.index') }}"
+                        class="{{ Str::startsWith(Route::currentRouteName(), 'tv-shows') ? 'text-orange-600' : '' }} hover:text-gray-300 transition duration-200">
                         TV Shows
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('actors.index') }}" class="hover:text-gray-300 transition duration-200">Actors</a>
+                    <a href="{{ route('actors.index') }}"
+                        class="{{ Str::startsWith(Route::currentRouteName(), 'actors') ? 'text-orange-600' : '' }} hover:text-gray-300 transition duration-200">
+                        Actors
+                    </a>
                 </li>
             </ul>
             <div class="items-center flex-col md:flex-row gap-4 flex">
@@ -61,13 +71,13 @@
                                     </a>
                                 </li>
                                 <li class="border-t border-gray-700">
-                                    <a href="#"
+                                    <a href="{{ route('watchlists.index') }}"
                                         class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
                                         My list
                                     </a>
                                 </li>
                                 <li class="border-t border-gray-700">
-                                    <form method="POST" action="#">
+                                    <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit"
                                             class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
@@ -77,13 +87,13 @@
                                 </li>
                             @else
                                 <li>
-                                    <a href="#"
+                                    <a href={{ route('login') }}
                                         class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150">
                                         Login
                                     </a>
                                 </li>
                                 <li class="border-t border-gray-700">
-                                    <a href="#"
+                                    <a href="{{ route('register') }}"
                                         class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150">
                                         Register
                                     </a>
@@ -134,13 +144,13 @@
                                 </a>
                             </li>
                             <li class="border-t border-gray-700">
-                                <a href="#"
+                                <a href="{{ route('watchlists.index') }}"
                                     class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
                                     My list
                                 </a>
                             </li>
                             <li class="border-t border-gray-700">
-                                <form method="POST" action="#">
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"
                                         class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
@@ -150,13 +160,13 @@
                             </li>
                         @else
                             <li>
-                                <a href="#"
+                                <a href={{ route('login') }}
                                     class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150">
                                     Login
                                 </a>
                             </li>
                             <li class="border-t border-gray-700">
-                                <a href="#"
+                                <a href="{{ route('register') }}"
                                     class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150">
                                     Register
                                 </a>

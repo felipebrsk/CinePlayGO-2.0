@@ -6,10 +6,13 @@
             <img alt="{{ $tvShow['name'] }}" src="{{ 'https://image.tmdb.org/t/p/original/' . $tvShow['poster_path'] }}"
                 class="w-full max-w-[30rem] rounded-md" />
             <div class="flex flex-col md:ml-8 mt-4 md:mt-0 gap-3">
-                <a href={{ $tvShow['homepage'] }} target="_blank"
-                    class="text-4xl font-semibold w-auto max-w-fit underline hover:text-blue-400 transition duration-200">
-                    {{ $tvShow['name'] }}
-                </a>
+                <div class="flex sm:flex-row flex-col justify-between items-center sm:gap-0 gap-4">
+                    <a href={{ $tvShow['homepage'] }} target="_blank"
+                        class="text-4xl font-semibold w-auto max-w-fit underline hover:text-blue-400 transition duration-200">
+                        {{ $tvShow['name'] }}
+                    </a>
+                    @livewire('add-to-watchlist', ['media' => $tvShow, 'type' => \App\Models\MediaType::TV_SHOW_TYPE_ID], key($tvShow['id']))
+                </div>
                 <div class="flex items-center text-gray-400 text-sm gap-1.5">
                     <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24">
                         <path

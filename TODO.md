@@ -5,8 +5,11 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 ### To Do List
 
 -   [ ] Study about livewire components test;
--   [ ] Create log in and register system;
--   [ ] Create an user watchlist.
+-   [ ] Create an emblem (gamified) system;
+-   [ ] Think about coins of the platform;
+-   [ ] Create a title system;
+-   [ ] Change title between pages (ex.: CinePlayGO 2.0 | Some Movie Title);
+-   [ ] Make social login.
 
 ### Completed Column ✓
 
@@ -35,4 +38,6 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 -   [x] Order actors casts and crew by time;
 -   [x] Empty crews or casts;
 -   [x] About actors death;
--   [x] Work with the watch providers from movies and tv shows - recommend where the people can watch the movie.
+-   [x] Work with the watch providers from movies and tv shows - recommend where the people can watch the movie;
+-   [x] Create log in and register system;
+-   [x] Create an user watchlist.

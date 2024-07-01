@@ -6,7 +6,13 @@
             <img alt="{{ $movie['title'] }}" src="{{ 'https://image.tmdb.org/t/p/w780/' . $movie['poster_path'] }}"
                 class="w-full max-w-[30rem] rounded-md" />
             <div class="flex flex-col md:ml-8 mt-4 md:mt-0 gap-3">
-                <h2 class="text-4xl font-semibold">{{ $movie['title'] }}</h2>
+                <div class="flex sm:flex-row flex-col justify-between items-center sm:gap-0 gap-4">
+                    <a href={{ $movie['homepage'] }} target="_blank"
+                        class="text-4xl font-semibold w-auto max-w-fit underline hover:text-blue-400 transition duration-200">
+                        {{ $movie['title'] }}
+                    </a>
+                    @livewire('add-to-watchlist', ['media' => $movie, 'type' => \App\Models\MediaType::MOVIE_TYPE_ID], key($movie['id']))
+                </div>
                 <div class="flex items-center text-gray-400 text-sm gap-1.5">
                     <svg class="fill-current text-orange-500 w-4" viewBox="0 0 24 24">
                         <path
