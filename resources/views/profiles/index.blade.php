@@ -15,10 +15,12 @@
                         <p class="text-gray-400">{{ $user->username }}</p>
                     </div>
                 </div>
-                <div class="flex items-center mt-6">
-                    <i class="fas fa-medal text-yellow-500 text-2xl mr-2"></i>
-                    <p class="text-gray-400">Enthusiastic</p>
-                </div>
+                @if ($user->titles()->where('in_use', true)->exists())
+                    <div class="flex items-center mt-6">
+                        <i class="fas fa-medal text-yellow-500 text-2xl mr-2"></i>
+                        <p class="text-gray-400">{{ $user->titles()->where('in_use', true)->value('title') }}</p>
+                    </div>
+                @endif
                 <div class="mt-6 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
                     <a href="{{ route('profiles.picture') }}"
                         class="bg-yellow-500 text-center py-2 rounded-lg shadow hover:bg-yellow-600 transition duration-200">

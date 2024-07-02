@@ -5,12 +5,14 @@ use App\Http\Controllers\{
     HomeController,
     ActorController,
     MovieController,
+    TitleController,
     TvShowController,
     ProfileController,
     WatchlistController,
 };
 
 Auth::routes();
+Route::resource('titles', TitleController::class);
 Route::get('/', HomeController::class)->name('home');
 Route::resource('movies', MovieController::class)->only('index', 'show');
 Route::resource('actors', ActorController::class)->only('index', 'show');

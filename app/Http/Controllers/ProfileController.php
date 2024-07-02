@@ -2,11 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Title;
+use App\Services\TitleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    /**
+     * The title service.
+     *
+     * @var \App\Services\TitleService
+     */
+    private $titleService;
+
+    /**
+     * Create a new class instance.
+     *
+     * @param \App\Services\TitleService $titleService
+     * @return void
+     */
+    public function __construct(TitleService $titleService)
+    {
+        $this->titleService = $titleService;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -74,13 +94,14 @@ class ProfileController extends Controller
      */
     public function titles(): View
     {
+        $user = Auth::user();
+
         return view('profiles.titles', [
-            'user' => Auth::user(),
-            'titles' => [
-                10 => 'Enthusiastic',
-                25 => 'Absolute Cinema',
-                1 => 'Watcher',
-            ],
+            'user' => $user,
+            'titles' => $user->titles->mapWithKeys(function (Title $title) {
+                return [$title->id => $title->title];
+            }),
+            'allTitles' => $this->titleService->all(),
         ]);
     }
 }
