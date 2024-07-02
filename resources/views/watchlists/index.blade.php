@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="flex flex-col container mx-auto py-8">
+        <x-alert />
         @if ($watchlists->count() > 0)
             @foreach ($watchlists as $watchlist)
                 <div wire:key="watchlist-item-{{ $watchlist->id }}">
@@ -17,15 +18,3 @@
         @endif
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        Livewire.on('watchlistDeleted', (watchlist) => {
-            const element = document.querySelector(`[wire\\:key="watchlist-item-${watchlist[0].id}"]`);
-
-            if (element) {
-                element.remove();
-            }
-        });
-    </script>
-@endpush

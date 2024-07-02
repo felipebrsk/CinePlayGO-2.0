@@ -62,15 +62,13 @@ class WatchlistCard extends Component
     /**
      * Remove from watchlist.
      *
-     * @return void
+     * @return mixed
      */
-    public function remove(): void
+    public function remove(): mixed
     {
         $this->watchlist->delete();
 
-        $this->dispatch('watchlistDeleted', [
-            'id' => $this->watchlist->id,
-        ]);
+        return redirect(request()->header('Referer'))->with('success_message', 'The item was successfully removed from watchlist!');
     }
 
     /**
