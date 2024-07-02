@@ -1,3 +1,5 @@
+@props(['type' => 'text', 'label' => 'Input'])
+
 <div class="flex flex-col gap-1">
     <label for={{ $id }} class="block text-sm">{{ $label }}</label>
     <input type={{ $type }} name={{ $name }} id={{ $id }}

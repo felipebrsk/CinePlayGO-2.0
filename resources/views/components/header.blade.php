@@ -55,7 +55,7 @@
                         @click.away="profileOpen = false">
                         @auth
                             <div class="flex items-center justify-center p-2 gap-2 border-b border-gray-700">
-                                <img src="{{ auth()->user()->picture ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg' }}"
+                                <img src="{{ s3Service()->getPath(auth()->user()->picture) ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg' }}"
                                     alt="Profile picture" class="rounded-full w-8 h-8 object-cover" />
                                 <span>
                                     Welcome, {{ auth()->user()->name }}!
@@ -128,7 +128,7 @@
                     @click.away="profileOpen = false">
                     @auth
                         <div class="flex items-center justify-center p-2 gap-2 border-b border-gray-700">
-                            <img src="{{ auth()->user()->picture ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg' }}"
+                            <img src="{{ s3Service()->getPath(auth()->user()->picture) ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg' }}"
                                 alt="Profile picture" class="rounded-full w-8 h-8 object-cover" />
                             <span>
                                 Welcome, {{ auth()->user()->name }}!

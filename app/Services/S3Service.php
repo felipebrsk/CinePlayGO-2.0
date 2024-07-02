@@ -24,6 +24,23 @@ class S3Service
     }
 
     /**
+     * Check if file exists on storage.
+     *
+     * @param ?string $path
+     * @return bool
+     */
+    public function exists(?string $path): bool
+    {
+        if ($path) {
+            return App::runningUnitTests() || App::runningInConsole() ?
+                Storage::fake('amazonAws')->exists($path) :
+                Storage::exists($path);
+        }
+
+        return false;
+    }
+
+    /**
      * Create a file in s3 with name.
      *
      * @param object $file
