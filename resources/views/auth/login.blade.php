@@ -30,6 +30,7 @@
             </div>
             <div class="sm:w-1/2 p-8">
                 <h2 class="text-2xl font-semibold mb-4">Login</h2>
+                <x-alert />
                 <form method="POST" action="{{ route('login') }}" class="flex flex-col gap-4">
                     @csrf
                     <div>

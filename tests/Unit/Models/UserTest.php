@@ -33,6 +33,7 @@ class UserTest extends TestCase
         $fillable = [
             'name',
             'email',
+            'picture',
             'password',
             'username',
         ];

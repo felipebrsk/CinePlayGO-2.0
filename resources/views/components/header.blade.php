@@ -55,8 +55,8 @@
                         @click.away="profileOpen = false">
                         @auth
                             <div class="flex items-center justify-center p-2 gap-2 border-b border-gray-700">
-                                <img src="https://placehold.co/600x400/EEE/31343C" alt="Foto de perfil"
-                                    class="rounded-full w-8 h-8 object-cover" />
+                                <img src="{{ auth()->user()->picture ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg' }}"
+                                    alt="Profile picture" class="rounded-full w-8 h-8 object-cover" />
                                 <span>
                                     Welcome, {{ auth()->user()->name }}!
                                 </span>
@@ -65,7 +65,7 @@
                         <ul>
                             @auth
                                 <li>
-                                    <a href="#"
+                                    <a href="{{ route('profiles.show') }}"
                                         class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
                                         Profile
                                     </a>
@@ -128,8 +128,8 @@
                     @click.away="profileOpen = false">
                     @auth
                         <div class="flex items-center justify-center p-2 gap-2 border-b border-gray-700">
-                            <img src="https://placehold.co/600x400/EEE/31343C" alt="Foto de perfil"
-                                class="rounded-full w-8 h-8 object-cover" />
+                            <img src="{{ auth()->user()->picture ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg' }}"
+                                alt="Profile picture" class="rounded-full w-8 h-8 object-cover" />
                             <span>
                                 Welcome, {{ auth()->user()->name }}!
                             </span>
@@ -138,7 +138,7 @@
                     <ul>
                         @auth
                             <li>
-                                <a href="#"
+                                <a href="{{ route('profiles.show') }}"
                                     class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
                                     Profile
                                 </a>
