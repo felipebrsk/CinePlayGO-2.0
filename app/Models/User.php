@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany, HasOne};
 
 class User extends Authenticatable
 {
@@ -50,6 +50,16 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the wallet associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class);
     }
 
     /**
