@@ -109,9 +109,6 @@ jobs:
           done
           echo "Laravel server is up and running!"
 
-      - name: Check server status
-        run: curl -f http://127.0.0.1:8000 || exit 1
-
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
