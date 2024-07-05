@@ -20,6 +20,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('profiles.transactions') }}"
+                class="{{ request()->routeIs('profiles.transactions') ? 'font-bold text-yellow-400 hover:text-yellow-500' : 'text-gray-300 hover:text-white' }} flex items-center gap-2">
+                <i class="fas fa-exchange"></i> Transactions
+            </a>
+        </li>
+        <li>
             <a href="{{ route('profiles.picture') }}"
                 class="{{ request()->routeIs('profiles.picture') ? 'font-bold text-yellow-400 hover:text-yellow-500' : 'text-gray-300 hover:text-white' }} flex items-center gap-2">
                 <i class="fas fa-image"></i> Change Picture

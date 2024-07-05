@@ -34,32 +34,7 @@
                 <h2 class="text-3xl mb-4 font-bold text-yellow-500">Available Titles</h2>
                 <div class="grid md:grid-cols-2 gap-6">
                     @foreach ($allTitles as $title)
-                        <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center gap-2">
-                                    <i class="fas fa-medal text-yellow-500 text-2xl"></i>
-                                    <p class="text-xl font-bold text-yellow-500">{{ $title['title'] }}</p>
-                                </div>
-                                @if ($title['acquired'])
-                                    <div>
-                                        <i class="fas fa-check-circle text-green-600"></i>
-                                    </div>
-                                @endif
-                            </div>
-                            @foreach ($title['requirements'] as $requirement)
-                                <ul>
-                                    <li class="flex items-center justify-between">
-                                        <p>
-                                            {{ $requirement['task'] }}
-                                        </p>
-                                        <span>
-                                            {{ auth()->user()->titleProgresses()->where('title_requirement_id', $requirement['id'])->value('progress') ?? 0 }}
-                                            / {{ $requirement['goal'] }}
-                                        </span>
-                                    </li>
-                                </ul>
-                            @endforeach
-                        </div>
+                        <x-title-card :title="$title" :user="$user" />
                     @endforeach
                 </div>
             </div>

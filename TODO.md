@@ -5,11 +5,9 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 ### To Do List
 
 -   [ ] Study about livewire components test;
--   [ ] Create an emblem (gamified) system;
--   [ ] Think about coins of the platform;
--   [ ] Create a title system;
--   [ ] Create an user profile;
--   [ ] Make social login.
+-   [ ] Make social login;
+-   [ ] Create a page to spend the coins - titles and think about items;
+-   [ ] Create a way to buy coins on platform - trade cash for coins.
 
 ### Completed Column ✓
 
@@ -41,4 +39,11 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 -   [x] Work with the watch providers from movies and tv shows - recommend where the people can watch the movie;
 -   [x] Create log in and register system;
 -   [x] Create an user watchlist;
--   [x] Change title between pages (ex.: CinePlayGO 2.0 | Some Movie Title).
+-   [x] Change title between pages (ex.: CinePlayGO 2.0 | Some Movie Title);
+-   [x] Create an emblem (gamified) system;
+-   [x] Think about coins of the platform;
+-   [x] Create a title system;
+-   [x] Create an user profile;
+-   [x] Create a page to check all transactions;
+-   [x] On spend coins, create a transaction to history;
+-   [x] Create a system to buy titles with coins.

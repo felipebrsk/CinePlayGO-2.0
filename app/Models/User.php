@@ -79,7 +79,10 @@ class User extends Authenticatable
      */
     public function titles(): BelongsToMany
     {
-        return $this->belongsToMany(Title::class, 'user_titles')->withPivot('acquired_at')->withTimestamps();
+        return $this->belongsToMany(Title::class, 'user_titles')
+            ->using(UserTitle::class)
+            ->withPivot('acquired_at')
+            ->withTimestamps();
     }
 
     /**
@@ -90,5 +93,15 @@ class User extends Authenticatable
     public function titleProgresses(): HasMany
     {
         return $this->hasMany(UserTitleProgress::class);
+    }
+
+    /**
+     * Get all of the transactions for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

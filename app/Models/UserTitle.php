@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\{Pivot, BelongsTo};
 
-class UserTitle extends Model
+class UserTitle extends Pivot
 {
     use HasFactory;
     /**
@@ -20,6 +19,20 @@ class UserTitle extends Model
         'title_id',
         'acquired_at',
     ];
+
+    /**
+     * The related table.
+     *
+     * @var string
+     */
+    public $table = 'user_titles';
+
+    /**
+     * The incrementing id.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
 
     /**
      * Get the user that owns the UserTitle

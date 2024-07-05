@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Title;
-use App\Services\TitleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use App\Services\{TitleService, TransactionService};
 
 class ProfileController extends Controller
 {
@@ -17,14 +17,23 @@ class ProfileController extends Controller
     private $titleService;
 
     /**
+     * The transaction service.
+     *
+     * @var \App\Services\TransactionService
+     */
+    private $transactionService;
+
+    /**
      * Create a new class instance.
      *
      * @param \App\Services\TitleService $titleService
+     * @param \App\Services\TransactionService $transactionService
      * @return void
      */
-    public function __construct(TitleService $titleService)
+    public function __construct(TitleService $titleService, TransactionService $transactionService)
     {
         $this->titleService = $titleService;
+        $this->transactionService = $transactionService;
     }
 
     /**
@@ -84,6 +93,19 @@ class ProfileController extends Controller
     {
         return view('profiles.coins', [
             'user' => Auth::user(),
+        ]);
+    }
+
+    /**
+     * The transactions view.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function transactions(): View
+    {
+        return view('profiles.transactions', [
+            'user' => Auth::user(),
+            'transactions' => $this->transactionService->allForUser(),
         ]);
     }
 

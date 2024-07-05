@@ -25,4 +25,5 @@ Route::controller(ProfileController::class)->middleware('auth')->group(function 
     Route::get('profile/username', 'username')->name('profiles.username');
     Route::get('profile/coins', 'coins')->name('profiles.coins');
     Route::get('profile/titles', 'titles')->name('profiles.titles');
+    Route::get('profile/transactions', 'transactions')->name('profiles.transactions');
 });

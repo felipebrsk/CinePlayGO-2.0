@@ -6,10 +6,10 @@
             <x-profile-sidebar />
             <div class="sm:w-3/4 w-full bg-gray-800 p-6 rounded-lg shadow-lg">
                 <h2 class="text-3xl mb-4 font-bold text-yellow-500">Your Coins</h2>
-                <p class="text-2xl">18392 coins</p>
+                <p class="text-2xl">{{ $user->wallet->amount }} coins</p>
                 <form class="mt-6">
                     @csrf
-                    <button type="submit"
+                    <button type="submit" onclick="event.preventDefault()"
                         class="bg-yellow-500 py-2 px-4 rounded-lg shadow hover:bg-yellow-600 transition duration-200 sm:w-auto w-full">
                         Redeem Coins
                     </button>

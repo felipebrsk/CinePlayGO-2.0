@@ -2,13 +2,12 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Title;
+use App\Models\TransactionType;
 use PHPUnit\Framework\TestCase;
 use Tests\Traits\TestUnitModels;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TitleTest extends TestCase
+class TransactionTypeTest extends TestCase
 {
     use TestUnitModels;
 
@@ -19,7 +18,7 @@ class TitleTest extends TestCase
      */
     protected function model(): string
     {
-        return Title::class;
+        return TransactionType::class;
     }
 
     /**
@@ -30,8 +29,7 @@ class TitleTest extends TestCase
     public function test_fillable(): void
     {
         $fillable = [
-            'title',
-            'price',
+            'type',
         ];
 
         $this->verifyIfExistFillable($fillable);
@@ -46,7 +44,6 @@ class TitleTest extends TestCase
     {
         $traits = [
             HasFactory::class,
-            SoftDeletes::class,
         ];
 
         $this->verifyIfUseTraits($traits);
@@ -76,7 +73,6 @@ class TitleTest extends TestCase
     {
         $casts = [
             'id' => 'int',
-            'deleted_at' => 'datetime',
         ];
 
         $this->verifyCasts($casts);

@@ -18,6 +18,7 @@ class Title extends Model
      */
     protected $fillable = [
         'title',
+        'price',
     ];
 
     /**
