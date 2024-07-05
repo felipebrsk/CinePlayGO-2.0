@@ -44,10 +44,10 @@ jobs:
         run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
 
       - name: Start Chrome Driver
-        run: ./bin/chromedriver-linux &
+        run: php artisan dusk:chrome-driver
 
       - name: Run Laravel Server
-        run: php vendor/bin/testbench serve --no-reload &
+        run: php artisan serve --no-reload &
 
       - name: Execute tests
         run: php vendor/bin/phpunit -c phpunit.dusk.xml
