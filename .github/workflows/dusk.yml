@@ -10,28 +10,37 @@ on:
       - main
 
 jobs:
-  dusk-php:
-    env:
-      DB_DATABASE: dusk
-      DB_CONNECTION: mysql
-      DB_HOST: 127.0.0.1
-      DB_PORT: 3306
-      DB_USERNAME: root
-      DB_PASSWORD: root
-      APP_URL: "http://localhost:8000"
-      APP_ENV: testing
-
+  dusk-tests:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: dusk
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Prepare The Environment
         run: cp .env.dusk .env
 
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping -h127.0.0.1 --silent; do
+            echo "Waiting for database connection..."
+            sleep 1
+          done
+
       - name: Create Database
         run: |
-          sudo systemctl start mysql
-          mysql -u ${{ env.DB_USERNAME }} -p ${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }} character set UTF8mb4 collate utf8mb4_bin;"
+          sudo apt-get install -y mysql-client
+          mysql -u root -proot -h 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS dusk CHARACTER SET UTF8mb4 COLLATE utf8mb4_bin;"
 
       - name: Cache composer.lock
         uses: actions/cache@v4
@@ -51,7 +60,7 @@ jobs:
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
       - name: Run Laravel Server
-        run: php artisan serve --no-reload &
+        run: php artisan serve --host=127.0.0.1 --port=8000 --no-reload &
 
       - name: Run Dusk Tests
         run: php artisan dusk
