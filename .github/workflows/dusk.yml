@@ -45,6 +45,9 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Copy .env.dusk
+        run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
+
       - name: Install dependencies
         run: |
           composer require "illuminate/contracts:^${{ matrix.laravel }}" "phpunit/phpunit:^${{ matrix.phpunit }}" --dev --no-update
