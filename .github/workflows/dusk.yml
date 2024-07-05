@@ -14,6 +14,7 @@ env:
   DB_CONNECTION: mysql
   DB_PORT: 3306
   DB_USER: root
+  DB_PASSWORD: secret1234
   APP_URL: "http://localhost:8000"
   APP_ENV: testing
 
@@ -25,7 +26,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASSWORD }}
           MYSQL_DATABASE: ${{ env.DB_DATABASE }}
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: >-
@@ -104,6 +105,7 @@ jobs:
           DB_DATABASE: ${{ env.DB_DATABASE }}
           DB_PORT: ${{ env.DB_PORT }}
           DB_USER: ${{ env.DB_USER }}
+          DB_PASSWORD: ${{ env.DB_PASSWORD }}
 
       - name: Capture Laravel logs
         if: failure()
