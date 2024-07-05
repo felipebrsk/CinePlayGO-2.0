@@ -47,10 +47,7 @@ jobs:
           touch ${{ env.DB_DATABASE }}
 
       - name: Install npm dependencies
-        run: npm install
-
-      - name: Run npm production build
-        run: npm run production
+        run: npm i
 
       - name: Start Chrome Driver
         run: php artisan dusk:chrome-driver
