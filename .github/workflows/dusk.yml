@@ -89,10 +89,6 @@ jobs:
       - name: Start Laravel server
         run: |
           php artisan serve --no-reload > /dev/null 2>&1 &
-          sleep 10
-
-      - name: Check server status
-        run: curl -f http://127.0.0.1:8000 || exit 1
 
       - name: Run Dusk tests
         run: |
@@ -106,7 +102,6 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
           DB_USER: ${{ env.DB_USER }}
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
-          TMDB_BASE_URL: "https://localhost:8000/"
 
       - name: Capture Laravel logs
         if: failure()
