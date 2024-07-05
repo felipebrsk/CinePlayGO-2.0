@@ -6,8 +6,15 @@ on:
 
 jobs:
   lint-commit-message:
-    name: Lint PR title
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [21]
+
+    name: Node ${{ matrix.node }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -20,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: ${{ matrix.node }}
 
       - name: Install Commitlint
         run: npm add --dev commitlint @commitlint/config-conventional

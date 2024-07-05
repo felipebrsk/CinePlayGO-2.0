@@ -48,10 +48,18 @@ jobs:
       - name: Copy .env.dusk
         run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
 
+      - name: Cache composer.lock
+        uses: actions/cache@v4
+        id: composer-cache-dusk
+        with:
+          key: ${{ runner.os }}-composer-dusk-${{ hashFiles('composer.lock') }}
+          path: vendor
+
       - name: Install dependencies
+        if: steps.composer-cache-dusk.outputs.cache-hit != 'true'
         run: |
           composer require "illuminate/contracts:^${{ matrix.laravel }}" "phpunit/phpunit:^${{ matrix.phpunit }}" --dev --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+          composer update --prefer-dist --no-interaction --no-progress --no-scripts --no-ansi
 
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
