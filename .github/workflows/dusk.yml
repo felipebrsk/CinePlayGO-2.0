@@ -1,4 +1,4 @@
-name: CI for Dusk
+name: Laravel Dusk
 
 on:
   pull_request:
@@ -9,39 +9,46 @@ on:
     branches:
       - main
 
+env:
+  DB_DATABASE: dusk
+  DB_CONNECTION: mysql
+  DB_PORT: 3306
+  DB_USER: root
+  APP_URL: "http://localhost:8000"
+  APP_ENV: testing
+
 jobs:
-  dusk-tests:
+  dusk-php:
     runs-on: ubuntu-latest
+
     services:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: dusk
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
+          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Prepare The Environment
-        run: cp .env.dusk .env
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, bcmath, gd, intl, mysqli, pdo_mysql
 
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin ping -h127.0.0.1 --silent; do
-            echo "Waiting for database connection..."
-            sleep 1
-          done
-
-      - name: Create Database
-        run: |
-          sudo apt-get install -y mysql-client
-          mysql -u root -proot -h 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS dusk CHARACTER SET UTF8mb4 COLLATE utf8mb4_bin;"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
 
       - name: Cache composer.lock
         uses: actions/cache@v4
@@ -50,36 +57,44 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           path: vendor
 
+      - name: Cache package.lock
+        uses: actions/cache@v4
+        id: package-cache
+        with:
+          key: ${{ runner.os }}-package-${{ hashFiles('package-lock.json') }}
+          path: node_modules
+
       - name: Install Laravel dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+      - name: Install npm dependencies
+        if: steps.package-cache.outputs.cache-hit != 'true'
+        run: npm i
+
+      - name: Copy .env.dusk
+        run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
 
       - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+        run: php artisan dusk:chrome-driver
 
-      - name: Run Laravel Server
-        run: php artisan serve --host=127.0.0.1 --port=8000 --no-reload &
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
 
-      - name: Run Dusk Tests
-        run: php artisan dusk
+      - name: Start Laravel server
+        run: php artisan serve --no-reload > /dev/null 2>&1 &
 
-      - name: Upload Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: tests/Browser/screenshots
+      - name: Check server status
+        run: curl -f http://127.0.0.1:8000 || exit 1
 
-      - name: Upload Console Logs
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: console
-          path: tests/Browser/console
-
-      - name: Capture Laravel logs
-        if: failure()
-        run: cat storage/logs/laravel.log
+      - name: Run Dusk tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk
+        env:
+          APP_ENV: ${{ env.APP_ENV }}
+          APP_URL: ${{ env.APP_URL }}
+          DB_CONNECTION: ${{ env.DB_CONNECTION }}
+          DB_DATABASE: ${{ env.DB_DATABASE }}
+          DB_PORT: ${{ env.DB_PORT }}
+          DB_USER: ${{ env.DB_USER }}
