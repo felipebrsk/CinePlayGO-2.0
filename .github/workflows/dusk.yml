@@ -81,7 +81,7 @@ jobs:
           echo "APP_URL=${{ env.APP_URL }}" >> .env
 
       - name: Run migrations
-        run: php artisan migrate -f
+        run: php artisan migrate --force
 
       - name: Start Laravel server
         run: php artisan serve --host=127.0.0.1 --port=8000 --no-reload &
