@@ -20,41 +20,28 @@ env:
   APP_ENV: testing
 
 jobs:
-  dusk-php:
+  dusk-tests:
     runs-on: ubuntu-latest
-
     services:
       mysql:
-        image: mariadb:10.2
+        image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
           MYSQL_ROOT_PASSWORD: ${{ env.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
+          MYSQL_USER: ${{ env.DB_USERNAME }}
+          MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
 
-    timeout-minutes: 30
-
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Prepare The Environment
-        run: cp .env.dusk .env
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
-
-      - name: Wait for MySQL
-        run: |
-          until mysqladmin ping --host=${{ env.DB_HOST }} --port=${{ env.DB_PORT }} --user=${{ env.DB_USERNAME }} --password=${{ env.DB_PASSWORD }} --silent; do
-            echo "Waiting for MySQL to be ready..."
-            sleep 5
-          done
 
       - name: Cache composer.lock
         uses: actions/cache@v4
@@ -67,29 +54,45 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Run migrations
-        run: php artisan migrate --force
+      - name: Copy .env.dusk to .env
+        run: cp .env.dusk .env
 
-      - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver
-
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
-
-      - name: Run Laravel Server
-        run: php artisan serve --no-reload > /dev/null 2>&1 &
-
-      - name: Run Dusk Tests
+      - name: Create database
         run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk
+          sudo apt-get install -y mysql-client
+          mysql -u root -proot -h ${{ env.DB_HOST }} -e "CREATE DATABASE ${{ env.DB_DATABASE }}"
+
+      - name: Update .env for Dusk
+        run: |
+          php artisan dusk:chrome-driver `google-chrome-stable --version | grep -oP '[0-9]+\.[0-9]+\.[0-9]+'`
+          echo "DB_CONNECTION=${{ env.DB_CONNECTION }}" >> .env
+          echo "DB_HOST=${{ env.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ env.DB_PORT }}" >> .env
+          echo "DB_DATABASE=${{ env.DB_DATABASE }}" >> .env
+          echo "DB_USERNAME=${{ env.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ env.DB_PASSWORD }}" >> .env
+          echo "APP_URL=${{ env.APP_URL }}" >> .env
+
+      - name: Run migrations
+        run: php artisan migrate -f
+
+      - name: Start Laravel server
+        run: php artisan serve --host=127.0.0.1 --port=8000 --no-reload &
         env:
-          APP_ENV: ${{ env.APP_ENV }}
-          APP_URL: ${{ env.APP_URL }}
           DB_CONNECTION: ${{ env.DB_CONNECTION }}
           DB_HOST: ${{ env.DB_HOST }}
-          DB_DATABASE: ${{ env.DB_DATABASE }}
           DB_PORT: ${{ env.DB_PORT }}
+          DB_DATABASE: ${{ env.DB_DATABASE }}
+          DB_USERNAME: ${{ env.DB_USERNAME }}
+          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+
+      - name: Run Laravel Dusk tests
+        run: php artisan dusk
+        env:
+          DB_CONNECTION: ${{ env.DB_CONNECTION }}
+          DB_HOST: ${{ env.DB_HOST }}
+          DB_PORT: ${{ env.DB_PORT }}
+          DB_DATABASE: ${{ env.DB_DATABASE }}
           DB_USERNAME: ${{ env.DB_USERNAME }}
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
 
