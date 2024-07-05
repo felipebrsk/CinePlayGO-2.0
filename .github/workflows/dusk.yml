@@ -75,6 +75,9 @@ jobs:
       - name: Copy .env.dusk
         run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
 
+      - name: Run migrations
+        run: php artisan migrate --force
+
       - name: Start Chrome Driver
         run: php artisan dusk:chrome-driver
 
@@ -100,3 +103,7 @@ jobs:
           DB_DATABASE: ${{ env.DB_DATABASE }}
           DB_PORT: ${{ env.DB_PORT }}
           DB_USER: ${{ env.DB_USER }}
+
+      - name: Capture Laravel logs
+        if: failure()
+        run: cat storage/logs/laravel.log
