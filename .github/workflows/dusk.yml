@@ -57,10 +57,17 @@ jobs:
       - name: Copy .env.dusk to .env
         run: cp .env.dusk .env
 
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysqladmin ping -h127.0.0.1 --silent; do
+            echo "Waiting for database connection..."
+            sleep 1
+          done
+
       - name: Create database
         run: |
           sudo apt-get install -y mysql-client
-          mysql -u root -proot -h ${{ env.DB_HOST }} -e "CREATE DATABASE ${{ env.DB_DATABASE }}"
+          mysql -u root -p${{ env.DB_PASSWORD }} -h ${{ env.DB_HOST }} -e "CREATE DATABASE ${{ env.DB_DATABASE }}"
 
       - name: Update .env for Dusk
         run: |
