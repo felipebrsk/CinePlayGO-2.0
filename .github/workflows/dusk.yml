@@ -20,7 +20,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: dusk
         ports:
-          - 3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     strategy:
@@ -59,6 +59,9 @@ jobs:
       - name: Start Chrome Driver
         run: php artisan dusk:chrome-driver
 
+      - name: Run migrations
+        run: php artisan migrate --env=dusk --no-interaction -vvv
+
       - name: Run Laravel Server
         run: php artisan serve --no-reload &
 
@@ -68,22 +71,8 @@ jobs:
           APP_URL: "http://127.0.0.1:8000"
           DB_CONNECTION: mysql
           DB_DATABASE: dusk
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_PORT: 3306
           DB_USERNAME: root
-
-      - name: Upload Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: tests/Browser/screenshots
-
-      - name: Upload Console Logs
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: console
-          path: tests/Browser/console
 
       - name: Capture Laravel logs
         if: failure()
