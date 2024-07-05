@@ -14,8 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:latest
         env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: dusk
           MYSQL_USER: root
