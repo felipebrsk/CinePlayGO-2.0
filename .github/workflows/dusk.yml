@@ -83,8 +83,8 @@ jobs:
       - name: Start Chrome Driver
         run: php artisan dusk:chrome-driver
 
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+      - name: Start ChromeDriver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux --port=9515 --url-base=wd/hub > /dev/null 2>&1 &
 
       - name: Start Laravel server
         run: |
