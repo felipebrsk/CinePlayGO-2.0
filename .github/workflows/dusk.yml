@@ -26,13 +26,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: mirromutth/mysql-action@master
+      - uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: "8.0"
+          mysql database: ${{ env.DB_DATABASE }}
           mysql root password: ${{ env.DB_PASSWORD }}
-          host port: ${{ env.DB_PORT }}
-          container port: ${{ env.DB_PORT }}
-      - run: mysql --port ${{ env.DB_PORT }} -u ${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE IF NOT EXISTS ${{ env.DB_DATABASE }};'
+          mysql user: ${{ env.DB_USERNAME }}
+          mysql password: ${{ env.DB_PASSWORD }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
