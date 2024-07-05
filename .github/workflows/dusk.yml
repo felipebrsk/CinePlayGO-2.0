@@ -70,7 +70,7 @@ jobs:
         
       - name: Install npm dependencies
         if: steps.package-cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm i
 
       - name: Copy .env.dusk
         run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
