@@ -26,12 +26,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: ${{ env.DB_DATABASE }}
-          mysql root password: ${{ env.DB_PASSWORD }}
-          mysql user: ${{ env.DB_USERNAME }}
-          mysql password: ${{ env.DB_PASSWORD }}
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_DATABASE }};" -u ${{ env.DB_USERNAME }} -p ${{ env.DB_PASSWORD }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -95,17 +93,7 @@ jobs:
           echo "Laravel server is up and running!"
 
       - name: Run Dusk tests
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk
-        env:
-          APP_ENV: ${{ env.APP_ENV }}
-          APP_URL: ${{ env.APP_URL }}
-          DB_CONNECTION: ${{ env.DB_CONNECTION }}
-          DB_DATABASE: ${{ env.DB_DATABASE }}
-          DB_PORT: ${{ env.DB_PORT }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+        run: php artisan dusk
 
       - name: Upload Screenshots
         if: failure()
