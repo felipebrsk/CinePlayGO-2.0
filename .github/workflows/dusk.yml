@@ -9,39 +9,29 @@ on:
     branches:
       - main
 
-env:
-  DB_DATABASE: dusk
-  DB_CONNECTION: mysql
-  DB_HOST: 127.0.0.1
-  DB_PORT: 3306
-  DB_USERNAME: dusk_user
-  DB_PASSWORD: secret1234
-  APP_URL: "http://localhost:8000"
-  APP_ENV: testing
-
 jobs:
-  dusk-tests:
+  dusk-php:
+    env:
+      DB_DATABASE: dusk
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      APP_URL: "http://localhost:8000"
+      APP_ENV: testing
+
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
-          MYSQL_USER: ${{ env.DB_USERNAME }}
-          MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.3
+      - name: Prepare The Environment
+        run: cp .env.dusk .env
+
+      - name: Create Database
+        run: |
+          sudo systemctl start mysql
+          mysql -u ${{ env.DB_USERNAME }} -p ${{ env.DB_PASSWORD }} -e "CREATE DATABASE ${{ env.DB_DATABASE }} character set UTF8mb4 collate utf8mb4_bin;"
 
       - name: Cache composer.lock
         uses: actions/cache@v4
@@ -54,54 +44,31 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Copy .env.dusk to .env
-        run: cp .env.dusk .env
+      - name: Upgrade Chrome Driver
+        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysqladmin ping -h127.0.0.1 --silent; do
-            echo "Waiting for database connection..."
-            sleep 1
-          done
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
-      # - name: Create database
-      #   run: |
-      #     sudo apt-get install -y mysql-client
-      #     mysql -u root -p${{ env.DB_PASSWORD }} -h ${{ env.DB_HOST }} -e "CREATE DATABASE ${{ env.DB_DATABASE }}"
+      - name: Run Laravel Server
+        run: php artisan serve --no-reload &
 
-      - name: Update .env for Dusk
-        run: |
-          php artisan dusk:chrome-driver `google-chrome-stable --version | grep -oP '[0-9]+\.[0-9]+\.[0-9]+'`
-          echo "DB_CONNECTION=${{ env.DB_CONNECTION }}" >> .env
-          echo "DB_HOST=${{ env.DB_HOST }}" >> .env
-          echo "DB_PORT=${{ env.DB_PORT }}" >> .env
-          echo "DB_DATABASE=${{ env.DB_DATABASE }}" >> .env
-          echo "DB_USERNAME=${{ env.DB_USERNAME }}" >> .env
-          echo "DB_PASSWORD=${{ env.DB_PASSWORD }}" >> .env
-          echo "APP_URL=${{ env.APP_URL }}" >> .env
-
-      - name: Run migrations
-        run: php artisan migrate --force
-
-      - name: Start Laravel server
-        run: php artisan serve --host=127.0.0.1 --port=8000 --no-reload &
-        env:
-          DB_CONNECTION: ${{ env.DB_CONNECTION }}
-          DB_HOST: ${{ env.DB_HOST }}
-          DB_PORT: ${{ env.DB_PORT }}
-          DB_DATABASE: ${{ env.DB_DATABASE }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
-
-      - name: Run Laravel Dusk tests
+      - name: Run Dusk Tests
         run: php artisan dusk
-        env:
-          DB_CONNECTION: ${{ env.DB_CONNECTION }}
-          DB_HOST: ${{ env.DB_HOST }}
-          DB_PORT: ${{ env.DB_PORT }}
-          DB_DATABASE: ${{ env.DB_DATABASE }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: console
+          path: tests/Browser/console
 
       - name: Capture Laravel logs
         if: failure()
