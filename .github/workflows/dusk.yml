@@ -1,0 +1,87 @@
+name: Laravel Dusk
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+    branches:
+      - "*"
+  push:
+    branches:
+      - main
+
+jobs:
+  php-dusk:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mariadb:10.2
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: dusk
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
+        laravel: [11]
+        phpunit: ["11.0"]
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - PHPUnit ${{ matrix.phpunit }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip
+          ini-values: error_reporting=E_ALL
+          tools: composer:v2
+          coverage: none
+
+      - name: Copy .env.dusk
+        run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
+
+      - name: Cache composer.lock
+        uses: actions/cache@v4
+        id: composer-cache-dusk
+        with:
+          key: ${{ runner.os }}-composer-dusk-${{ hashFiles('composer.lock') }}
+          path: vendor
+
+      - name: Install dependencies
+        if: steps.composer-cache-dusk.outputs.cache-hit != 'true'
+        run: |
+          composer require "illuminate/contracts:^${{ matrix.laravel }}" "phpunit/phpunit:^${{ matrix.phpunit }}" --dev --no-update
+          composer update --prefer-dist --no-interaction --no-progress --no-scripts --no-ansi
+
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+
+      - name: Start Chrome Driver
+        run: php artisan dusk:chrome-driver
+
+      - name: Run migrations
+        run: php artisan migrate --env=dusk --no-interaction -vvv
+
+      - name: Run Laravel Server
+        run: php artisan serve --no-reload &
+
+      - name: Execute tests
+        run: php vendor/bin/phpunit -c phpunit.dusk.xml
+        env:
+          APP_URL: "http://127.0.0.1:8000"
+          DB_CONNECTION: mysql
+          DB_DATABASE: dusk
+          DB_PORT: 3306
+          DB_USERNAME: root
+
+      - name: Capture Laravel logs
+        if: failure()
+        run: cat storage/logs/laravel.log

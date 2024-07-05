@@ -55,9 +55,9 @@ class ChangeUsername extends Component
     /**
      * Submit the request to change password.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function submit(): mixed
+    public function submit(): void
     {
         $this->validate();
 
@@ -71,7 +71,9 @@ class ChangeUsername extends Component
 
         $this->user->update(['username' => $this->username]);
 
-        return redirect()->route('profiles.show')->with('success_message', 'Your username was successfully updated.');
+        session()->flash('success_message', 'Your username was successfully updated.');
+
+        $this->redirect(route('profiles.show'));
     }
 
     /**
