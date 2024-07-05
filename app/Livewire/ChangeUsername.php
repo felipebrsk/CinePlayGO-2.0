@@ -38,7 +38,7 @@ class ChangeUsername extends Component
      */
     protected $rules = [
         'password' => 'required|min:8',
-        'username' => "required|string|max:255",
+        'username' => 'required|string|max:255',
     ];
 
     /**
