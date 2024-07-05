@@ -106,6 +106,7 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
           DB_USER: ${{ env.DB_USER }}
           DB_PASSWORD: ${{ env.DB_PASSWORD }}
+          TMDB_BASE_URL: "https://localhost:8000/"
 
       - name: Capture Laravel logs
         if: failure()
