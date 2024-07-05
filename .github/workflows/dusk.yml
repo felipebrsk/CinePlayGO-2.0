@@ -10,12 +10,30 @@ on:
       - main
 
 env:
-  DB_DATABASE: database/database.sqlite
-  DB_CONNECTION: sqlite
+  DB_DATABASE: dusk
+  DB_CONNECTION: mysql
+  DB_PORT: 3306
+  DB_USER: root
+  APP_URL: "http://localhost:8000"
+  APP_ENV: testing
 
 jobs:
   dusk-php:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+        ports:
+          - 3306:3306
 
     steps:
       - name: Checkout code
@@ -26,6 +44,11 @@ jobs:
         with:
           php-version: 8.3
           extensions: mbstring, bcmath, gd, intl, mysqli, pdo_mysql
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
 
       - name: Cache composer.lock
         uses: actions/cache@v4
@@ -33,32 +56,42 @@ jobs:
         with:
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
           path: vendor
+          
+      - name: Cache package.lock
+        uses: actions/cache@v4
+        id: package-cache
+        with:
+          key: ${{ runner.os }}-package-${{ hashFiles('package-lock.json') }}
+          path: node_modules
 
       - name: Install Laravel dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Copy .env.testing
-        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
-
-      - name: Create sqlite dummy database (PHPUnit db)
-        run: |
-          mkdir -p database
-          touch ${{ env.DB_DATABASE }}
-
+        
       - name: Install npm dependencies
-        run: npm i
+        if: steps.package-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Copy .env.dusk
+        run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
 
       - name: Start Chrome Driver
         run: php artisan dusk:chrome-driver
 
+      - name: Start Chrome Driver
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+
       - name: Run Laravel Server
-        run: php artisan serve > /dev/null 2>&1 &
+        run: php artisan serve --no-reload &
 
       - name: Run Dusk tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk
         env:
+          APP_ENV: ${{ env.APP_ENV }}
+          APP_URL: ${{ env.APP_URL }}
           DB_CONNECTION: ${{ env.DB_CONNECTION }}
           DB_DATABASE: ${{ env.DB_DATABASE }}
+          DB_PORT: ${{ env.DB_PORT }}
+          DB_USER: ${{ env.DB_USER }}
