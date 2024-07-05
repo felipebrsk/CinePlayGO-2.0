@@ -75,7 +75,7 @@ class ChangeUsernameTest extends DuskTestCase
                 ->type('username', $username = fake()->unique()->userName())
                 ->press('Update Username')
                 ->waitForReload()
-                ->assertSee('Your username was successfully updated.');
+                ->waitForText('Your username was successfully updated.');
         });
 
         $this->assertDatabaseHas('users', [
