@@ -1,0 +1,67 @@
+name: Laravel Dusk
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+    branches:
+      - "*"
+  push:
+    branches:
+      - main
+
+env:
+  DB_DATABASE: database/database.sqlite
+  DB_CONNECTION: sqlite
+
+jobs:
+  dusk-php:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, bcmath, gd, intl, mysqli, pdo_mysql
+
+      - name: Cache composer.lock
+        uses: actions/cache@v4
+        id: composer-cache
+        with:
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          path: vendor
+
+      - name: Install Laravel dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Copy .env.testing
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+
+      - name: Create sqlite dummy database (PHPUnit db)
+        run: |
+          mkdir -p database
+          touch ${{ env.DB_DATABASE }}
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run npm production build
+        run: npm run production
+
+      - name: Start Chrome Driver
+        run: php artisan dusk:chrome-driver
+
+      - name: Run Laravel Server
+        run: php artisan serve > /dev/null 2>&1 &
+
+      - name: Run Dusk tests
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk
+        env:
+          DB_CONNECTION: ${{ env.DB_CONNECTION }}
+          DB_DATABASE: ${{ env.DB_DATABASE }}

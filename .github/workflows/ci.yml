@@ -63,12 +63,6 @@ jobs:
           DB_DATABASE: ${{ env.DB_DATABASE }}
         run: php artisan test -p
 
-      - name: Start Chrome Driver
-        run: php artisan dusk:chrome-driver
-
-      - name: Execute dusk tests
-        run: php artisan dusk
-
   pint:
     runs-on: ubuntu-latest
     permissions:
