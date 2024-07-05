@@ -22,23 +22,17 @@ jobs:
   dusk-php:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-        ports:
-          - 3306:3306
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - uses: mirromutth/mysql-action@master
+        with:
+          mysql version: "8.0"
+          mysql root password: ${{ env.DB_PASSWORD }}
+          host port: ${{ env.DB_PORT }}
+          container port: ${{ env.DB_PORT }}
+      - run: mysql --port ${{ env.DB_PORT }} -u ${{ env.DB_USERNAME }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE IF NOT EXISTS ${{ env.DB_DATABASE }};'
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -75,15 +69,6 @@ jobs:
 
       - name: Copy .env.dusk
         run: php -r "file_exists('.env') || copy('.env.dusk', '.env');"
-
-      - name: Create Database
-        run: |
-          sudo apt-get install -y mysql-client
-          until mysqladmin ping -h 127.0.0.1 --silent; do
-            echo "Waiting for database connection..."
-            sleep 1
-          done
-          mysql -u root -proot -h 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS dusk CHARACTER SET UTF8mb4 COLLATE utf8mb4_bin;"
 
       - name: Start Chrome Driver
         run: php artisan dusk:chrome-driver
