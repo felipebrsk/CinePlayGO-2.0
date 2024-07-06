@@ -4,7 +4,7 @@
         <div>
             @if ($photo)
                 <img src="{{ $photo->temporaryUrl() }}" alt="Preview"
-                    class="w-32 h-32 rounded-full border-4 border-yellow-500 object-cover" />
+                    class="w-32 h-32 rounded-full border-4 border-yellow-500 object-cover" dusk="preview" />
             @else
                 <img src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                     alt="Preview" class="w-32 h-32 rounded-full border-4 border-yellow-500 object-cover" />

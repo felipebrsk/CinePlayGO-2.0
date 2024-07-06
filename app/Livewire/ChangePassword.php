@@ -62,9 +62,9 @@ class ChangePassword extends Component
     /**
      * Submit the request to change password.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function submit(): mixed
+    public function submit(): void
     {
         $this->validate();
 
@@ -80,7 +80,9 @@ class ChangePassword extends Component
 
         Auth::logout();
 
-        return redirect()->route('login')->with('success_message', 'Your password was successfully changed! Please, log in again with your new password.');
+        session()->flash('success_message', 'Your password was successfully changed! Please, log in again with your new password.');
+
+        $this->redirect(route('login'));
     }
 
     /**

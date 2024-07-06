@@ -40,9 +40,9 @@ class ChangePicture extends Component
     /**
      * Submit the request to change password.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function submit(): mixed
+    public function submit(): void
     {
         if ($this->user->picture) {
             s3Service()->delete($this->user->picture);
@@ -51,7 +51,7 @@ class ChangePicture extends Component
         $photo = $this->photo->storeAs(
             'profiles',
             $this->user->username . '_profile_picture',
-            's3',
+            env('FILESYSTEM_DISK', 's3'),
             'private',
         );
 
@@ -61,7 +61,9 @@ class ChangePicture extends Component
 
         $this->removeTemporaryFile();
 
-        return redirect()->route('profiles.show')->with('success_message', 'Your profile picture was successfully updated!');
+        session()->flash('success_message', 'Your profile picture was successfully updated!');
+
+        $this->redirect(route('profiles.show'));
     }
 
     /**
