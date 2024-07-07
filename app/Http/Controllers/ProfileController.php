@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Title;
+use App\Models\{User, Title};
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use App\Services\{TitleService, TransactionService};
+use App\Services\{PackageService, TitleService, TransactionService};
 
 class ProfileController extends Controller
 {
@@ -22,18 +22,39 @@ class ProfileController extends Controller
      * @var \App\Services\TransactionService
      */
     private $transactionService;
+    /**
+     * The package service.
+     *
+     * @var \App\Services\PackageService
+     */
+    private $packageService;
 
     /**
      * Create a new class instance.
      *
      * @param \App\Services\TitleService $titleService
+     * @param \App\Services\PackageService $packageService
      * @param \App\Services\TransactionService $transactionService
      * @return void
      */
-    public function __construct(TitleService $titleService, TransactionService $transactionService)
-    {
+    public function __construct(
+        TitleService $titleService,
+        PackageService $packageService,
+        TransactionService $transactionService,
+    ) {
         $this->titleService = $titleService;
+        $this->packageService = $packageService;
         $this->transactionService = $transactionService;
+    }
+
+    /**
+     * Get the authenticated user.
+     *
+     * @return \App\Models\User
+     */
+    private function getAuthenticatedUser(): User
+    {
+        return Auth::user();
     }
 
     /**
@@ -44,7 +65,7 @@ class ProfileController extends Controller
     public function show(): View
     {
         return view('profiles.index', [
-            'user' => Auth::user(),
+            'user' => $this->getAuthenticatedUser(),
         ]);
     }
 
@@ -56,7 +77,7 @@ class ProfileController extends Controller
     public function picture(): View
     {
         return view('profiles.picture', [
-            'user' => Auth::user(),
+            'user' => $this->getAuthenticatedUser(),
         ]);
     }
 
@@ -68,7 +89,7 @@ class ProfileController extends Controller
     public function password(): View
     {
         return view('profiles.password', [
-            'user' => Auth::user(),
+            'user' => $this->getAuthenticatedUser(),
         ]);
     }
 
@@ -80,7 +101,7 @@ class ProfileController extends Controller
     public function username(): View
     {
         return view('profiles.username', [
-            'user' => Auth::user(),
+            'user' => $this->getAuthenticatedUser(),
         ]);
     }
 
@@ -92,7 +113,8 @@ class ProfileController extends Controller
     public function coins(): View
     {
         return view('profiles.coins', [
-            'user' => Auth::user(),
+            'user' => $this->getAuthenticatedUser(),
+            'packages' => $this->packageService->coins(),
         ]);
     }
 
@@ -104,7 +126,7 @@ class ProfileController extends Controller
     public function transactions(): View
     {
         return view('profiles.transactions', [
-            'user' => Auth::user(),
+            'user' => $this->getAuthenticatedUser(),
             'transactions' => $this->transactionService->allForUser(),
         ]);
     }
@@ -116,7 +138,7 @@ class ProfileController extends Controller
      */
     public function titles(): View
     {
-        $user = Auth::user();
+        $user = $this->getAuthenticatedUser();
 
         return view('profiles.titles', [
             'user' => $user,

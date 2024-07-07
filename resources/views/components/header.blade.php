@@ -70,10 +70,13 @@
                                         Profile
                                     </a>
                                 </li>
-                                <li class="border-t border-gray-700">
+                                <li class="border-t border-gray-700 hover:bg-gray-700">
                                     <a href="{{ route('watchlists.index') }}"
-                                        class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
+                                        class="transition ease-in-out duration-150 w-full text-left px-4 py-3 flex items-center justify-between">
                                         My list
+                                        <span class="bg-gray-500 rounded-full w-4 h-4 flex items-center justify-center">
+                                            {{ auth()->user()->watchlists()->count() }}
+                                        </span>
                                     </a>
                                 </li>
                                 <li class="border-t border-gray-700">
@@ -143,10 +146,13 @@
                                     Profile
                                 </a>
                             </li>
-                            <li class="border-t border-gray-700">
+                            <li class="border-t border-gray-700 hover:bg-gray-700">
                                 <a href="{{ route('watchlists.index') }}"
-                                    class="hover:bg-gray-700 px-4 py-3 flex items-center transition ease-in-out duration-150 w-full text-left">
+                                    class="transition ease-in-out duration-150 w-full text-left px-4 py-3 flex items-center justify-between">
                                     My list
+                                    <span class="bg-gray-500 rounded-full w-4 h-4 flex items-center justify-center">
+                                        {{ auth()->user()->watchlists()->count() }}
+                                    </span>
                                 </a>
                             </li>
                             <li class="border-t border-gray-700">

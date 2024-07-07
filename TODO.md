@@ -7,7 +7,8 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 -   [ ] Study about livewire components test;
 -   [ ] Make social login;
 -   [ ] Create a page to spend the coins - titles and think about items;
--   [ ] Create a way to buy coins on platform - trade cash for coins.
+-   [ ] Create a way to buy coins on platform - trade cash for coins;
+-   [ ] Create a coupon system.
 
 ### Completed Column ✓
 

@@ -31,7 +31,10 @@
 
         <div class="flex sm:flex-row flex-col gap-6 mt-6">
             <div class="w-full bg-gray-800 p-6 rounded-lg shadow-lg">
-                <h2 class="text-3xl mb-4 font-bold text-yellow-500">Available Titles</h2>
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold text-yellow-500">Available Titles</h2>
+                    <p class="text-xl">Buy or see the progress of your favorite titles!</p>
+                </div>
                 <div class="grid md:grid-cols-2 gap-6">
                     @if ($allTitles->count() > 0)
                         @foreach ($allTitles as $title)

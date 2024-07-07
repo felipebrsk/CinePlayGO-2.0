@@ -18,3 +18,31 @@
         min-height: 100%;
     }
 }
+
+@layer components {
+    .progress-bar {
+        @apply relative w-full h-4 bg-gray-600 rounded-full overflow-hidden;
+    }
+    .progress-bar-inner {
+        @apply absolute top-0 left-0 h-full bg-yellow-500 transition-all duration-500;
+    }
+    .progress-bar-text {
+        @apply absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center text-xs text-gray-100 font-semibold;
+    }
+
+    .coin-card {
+        @apply bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col items-center transition duration-300 transform hover:scale-105 hover:bg-gray-700;
+    }
+    .coin-card-img {
+        @apply w-24 h-24 mb-4 rounded-full border-4 border-yellow-500;
+    }
+    .coin-card-title {
+        @apply text-2xl font-bold text-yellow-400 mb-2;
+    }
+    .coin-card-price {
+        @apply text-lg text-gray-300 mb-4;
+    }
+    .coin-card-button {
+        @apply bg-yellow-500 text-black font-bold py-2 px-6 rounded-full hover:bg-yellow-600 transition duration-200;
+    }
+}
