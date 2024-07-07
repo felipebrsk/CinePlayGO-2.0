@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Factories\TaskStrategyFactory;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\{Title, UserTitle, UserTitleProgress, User, TitleRequirement};
 
@@ -72,18 +73,8 @@ class TitleRepository extends AbstractRepository
      */
     public function determineInitialProgress(User $user, TitleRequirement $requirement): int
     {
-        switch ($requirement->task) {
-            case 'Store at least five movies on watchlist.':
-            case 'Put at least 25 movies on watchlist.':
-                $count = $user->watchlists()->count();
-                return $count > $requirement->goal ? $requirement->goal : $count;
-            case 'Store a picture/avatar on platform.':
-                return $user->picture ? 1 : 0;
-            case 'Mark at least 10 movies as watched on your watchlist.':
-                $count = $user->watchlists()->where('watched', true)->count();
-                return $count > $requirement->goal ? $requirement->goal : $count;
-            default:
-                return 0;
-        }
+        $strategy = TaskStrategyFactory::make($requirement);
+
+        return $strategy->calculateProgress($user, $requirement);
     }
 }

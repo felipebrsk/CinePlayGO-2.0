@@ -21,27 +21,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($transactions as $transaction)
+                            @if ($transactions->count() > 0)
+                                @foreach ($transactions as $transaction)
+                                    <tr class="text-center hover:bg-gray-600">
+                                        <td
+                                            class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif">
+                                            {{ $transaction->created_at->format('Y-m-d H:i') }}
+                                        </td>
+                                        <td
+                                            class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif {{ $transaction->transaction_type_id === $subtract ? 'text-red-500' : 'text-green-500' }}">
+                                            {{ $transaction->amount }} coins
+                                        </td>
+                                        <td
+                                            class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif">
+                                            {{ \Illuminate\Support\Str::limit($transaction->description, 50, '...') }}
+                                            @if (strlen($transaction->description) > 50)
+                                                <i class="fa-regular fa-circle-question"
+                                                    title="{{ $transaction->description }}"></i>
+                                            @endif
+                                        </td>
+                                        <td
+                                            class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif">
+                                            {{ $transaction->transaction_type_id === $subtract ? 'Subtraction' : 'Addition' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr class="text-center hover:bg-gray-600">
-                                    <td class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif">
-                                        {{ $transaction->created_at->format('Y-m-d H:i') }}
-                                    </td>
-                                    <td
-                                        class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif {{ $transaction->transaction_type_id === $subtract ? 'text-red-500' : 'text-green-500' }}">
-                                        {{ $transaction->amount }} coins
-                                    </td>
-                                    <td class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif">
-                                        {{ \Illuminate\Support\Str::limit($transaction->description, 50, '...') }}
-                                        @if (strlen($transaction->description) > 50)
-                                            <i class="fa-regular fa-circle-question"
-                                                title="{{ $transaction->description }}"></i>
-                                        @endif
-                                    </td>
-                                    <td class="py-2 px-4 @if (!$loop->last) border-b border-gray-600 @endif">
-                                        {{ $transaction->transaction_type_id === $subtract ? 'Subtraction' : 'Addition' }}
+                                    <td class="py-2 px-4" colspan="4">
+                                        No one transaction found.
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

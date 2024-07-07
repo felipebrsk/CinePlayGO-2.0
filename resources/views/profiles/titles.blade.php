@@ -33,9 +33,15 @@
             <div class="w-full bg-gray-800 p-6 rounded-lg shadow-lg">
                 <h2 class="text-3xl mb-4 font-bold text-yellow-500">Available Titles</h2>
                 <div class="grid md:grid-cols-2 gap-6">
-                    @foreach ($allTitles as $title)
-                        <x-title-card :title="$title" :user="$user" />
-                    @endforeach
+                    @if ($allTitles->count() > 0)
+                        @foreach ($allTitles as $title)
+                            <x-title-card :title="$title" :user="$user" />
+                        @endforeach
+                    @else
+                        <div>
+                            No one title found.
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
