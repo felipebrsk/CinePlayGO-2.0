@@ -4,7 +4,6 @@ namespace Tests\Unit\Jobs;
 
 use Tests\TestCase;
 use App\Jobs\RegisterUserJob;
-use App\Services\TitleService;
 use Illuminate\Support\Facades\{Bus, Queue};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Traits\{HasDummyTitle, HasDummyTitleRequirement, HasDummyUser};
@@ -24,13 +23,6 @@ class RegisterUserJobTest extends TestCase
     private $user;
 
     /**
-     * The title service.
-     *
-     * @var \App\Services\TitleService
-     */
-    private $titleService;
-
-    /**
      * Setup new test environments.
      *
      * @return void
@@ -40,7 +32,6 @@ class RegisterUserJobTest extends TestCase
         parent::setUp();
 
         $this->user = $this->createDummyUser();
-        $this->titleService = new TitleService();
     }
 
     /**
@@ -52,7 +43,7 @@ class RegisterUserJobTest extends TestCase
     {
         Bus::fake();
 
-        Bus::dispatch(new RegisterUserJob($this->user, $this->titleService));
+        Bus::dispatch(new RegisterUserJob($this->user));
 
         Bus::assertDispatched(RegisterUserJob::class, 1);
     }
@@ -66,7 +57,7 @@ class RegisterUserJobTest extends TestCase
     {
         Queue::fake();
 
-        Bus::dispatch(new RegisterUserJob($this->user, $this->titleService));
+        Bus::dispatch(new RegisterUserJob($this->user));
 
         Queue::assertPushed(RegisterUserJob::class, 1);
     }
@@ -80,7 +71,7 @@ class RegisterUserJobTest extends TestCase
     {
         $this->assertDatabaseEmpty('wallets');
 
-        Bus::dispatch(new RegisterUserJob($this->user, $this->titleService));
+        Bus::dispatch(new RegisterUserJob($this->user));
 
         $this->assertDatabaseCount('wallets', 1)->assertDatabaseHas('wallets', [
             'user_id' => $this->user->id,
@@ -101,7 +92,7 @@ class RegisterUserJobTest extends TestCase
 
         $this->assertDatabaseEmpty('user_title_progress');
 
-        Bus::dispatch(new RegisterUserJob($this->user, $this->titleService));
+        Bus::dispatch(new RegisterUserJob($this->user));
 
         $this->assertDatabaseCount('user_title_progress', 1)->assertDatabaseHas('user_title_progress', [
             'progress' => 0,

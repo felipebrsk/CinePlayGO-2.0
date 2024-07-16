@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use App\Services\TitleService;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\{SerializesModels, InteractsWithQueue};
@@ -24,23 +23,14 @@ class RegisterUserJob implements ShouldQueue
     public $user;
 
     /**
-     * The title service.
-     *
-     * @var \App\Services\TitleService
-     */
-    public $titleService;
-
-    /**
      * Create a new job instance.
      *
      * @param \App\Models\User $user
-     * @param \App\Services\TitleService $titleService
      * @return void
      */
-    public function __construct(User $user, TitleService $titleService)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->titleService = $titleService;
     }
 
     /**
@@ -52,7 +42,7 @@ class RegisterUserJob implements ShouldQueue
             'amount' => 0,
         ]);
 
-        $this->titleService->all()->each(function (Title $title) {
+        titleService()->all()->each(function (Title $title) {
             $title->requirements->each(function (TitleRequirement $requirement) {
                 UserTitleProgress::create([
                     'user_id' => $this->user->id,

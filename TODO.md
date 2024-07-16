@@ -6,9 +6,25 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 
 -   [ ] Study about livewire components test;
 -   [ ] Make social login;
--   [ ] Create a page to spend the coins - titles and think about items;
--   [ ] Create a way to buy coins on platform - trade cash for coins;
--   [ ] Create a coupon system.
+-   [ ] Create a page to spend the coins - titles and think about items:
+    -   [x] Buy titles for coins;
+    -   [ ] Buy items for coins (what items?).
+-   [x] Create a way to buy coins on platform - trade cash for coins:
+    -   [x] Create page to buy coins;
+-   [ ] Create checkout page;
+-   [ ] Create orders with products (for coins or any other);
+-   [ ] Integrate with a payment gateway;
+-   [ ] Think about a public ranking on platform;
+-   [ ] Think about a goal;
+-   [ ] Create orders system;
+-   [ ] Create a coupon system:
+    -   [x] Options: coupons for single use, for first time purchasing on platform, type (fixed or percentage discount), expiry date, active coupon and min value;
+    -   [x] Block apply if coupon doesn't exist;
+    -   [x] Block apply if coupon is expired;
+    -   [x] Block apply if cart total is lower than coupon;
+    -   [x] Block apply if min value is not attended;
+    -   [ ] Block apply if coupon is for single use;
+    -   [ ] Block apply if coupon is for first purchase.
 
 ### Completed Column ✓
 
@@ -47,4 +63,11 @@ The CinePlayGO 2.0 is just a reimagination of an old project that I did in the s
 -   [x] Create an user profile;
 -   [x] Create a page to check all transactions;
 -   [x] On spend coins, create a transaction to history;
--   [x] Create a system to buy titles with coins.
+-   [x] Create a system to buy titles with coins;
+-   [x] Create the cart for users;
+-   [x] Create the cart page:
+    -   [x] Create control of quantity on cart;
+    -   [x] Create remove from cart option;
+    -   [x] Create add to cart option - add quantity of product if repeated;
+    -   [x] Create the cart prices (auto update on changes for coupon or coins).
+-   [x] Create use coins on purchases.

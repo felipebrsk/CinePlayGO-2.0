@@ -16,6 +16,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Storage::fake(env('FILESYSTEM_DISK', 's3'));
+        Storage::fake(env('FILESYSTEM_DISK', 'aws'));
     }
 }

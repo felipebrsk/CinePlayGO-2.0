@@ -10,9 +10,12 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('package_types', function (Blueprint $table) {
+        Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->integer('qty');
+            $table->integer('price');
+            $table->morphs('itemable');
+            $table->foreignId('cart_id')->constrained();
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('package_types');
+        Schema::dropIfExists('cart_items');
     }
 };

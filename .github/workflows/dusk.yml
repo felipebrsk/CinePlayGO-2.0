@@ -68,7 +68,7 @@ jobs:
         run: php artisan dusk:chrome-driver
 
       - name: Run migrations
-        run: php artisan migrate --env=dusk --no-interaction -vvv
+        run: php artisan migrate --env=dusk.local --no-interaction -vvv
 
       - name: Run Laravel Server
         run: php artisan serve --no-reload &

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use App\Services\{MovieService, TvShowService};
 
 class HomeController extends Controller
@@ -36,9 +37,9 @@ class HomeController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @return
+     * @return \Illuminate\Contracts\View\View
      */
-    public function __invoke()
+    public function __invoke(): View
     {
         return view('home', [
             'nowPlayingMovies' => $this->movieService->filteredMovies([

@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Support\Str;
+use App\Jobs\RegisterUserJob;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -40,5 +42,17 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Configure the user factory.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function configure(): Factory
+    {
+        return $this->afterCreating(function (User $user) {
+            RegisterUserJob::dispatch($user);
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 @section('content')
     <section class="container mx-auto p-4 text-white">
+        <x-alert />
         <div class="flex sm:flex-row flex-col gap-6">
             <x-profile-sidebar />
             <div class="sm:w-3/4 w-full bg-gray-800 p-6 rounded-lg shadow-lg">
@@ -39,7 +40,7 @@
                                 <p class="text-lg text-gray-300 mb-4">
                                     {{ \Illuminate\Support\Number::currency($package['price'] / 100) }}
                                 </p>
-                                <x-button label="Buy Now" />
+                                @livewire('add-to-cart', ['item' => $package], key($package->id))
                             </div>
                         @endforeach
                     @else

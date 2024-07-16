@@ -63,6 +63,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the cart associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cart(): HasOne
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    /**
      * Get all of the watchlists for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

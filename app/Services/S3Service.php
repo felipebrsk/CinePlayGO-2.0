@@ -18,9 +18,7 @@ class S3Service
      */
     public function create(object $file, string $folder, string $visibility = Visibility::PRIVATE): string
     {
-        return App::environment(['testing', 'dusk']) ?
-            Storage::fake(env('FILESYSTEM_DISK', 's3'))->put($folder, $file, $visibility) :
-            Storage::put($folder, $file, $visibility);
+        return Storage::put($folder, $file, $visibility);
     }
 
     /**
@@ -31,13 +29,7 @@ class S3Service
      */
     public function exists(?string $path): bool
     {
-        if ($path) {
-            return App::environment(['testing', 'dusk']) ?
-                Storage::fake(env('FILESYSTEM_DISK', 's3'))->exists($path) :
-                Storage::exists($path);
-        }
-
-        return false;
+        return $path ? Storage::exists($path) : false;
     }
 
     /**
@@ -55,26 +47,19 @@ class S3Service
         string $name,
         string $visibility = Visibility::PRIVATE,
     ): string {
-        return App::environment(['testing', 'dusk']) ?
-            Storage::fake(env('FILESYSTEM_DISK', 's3'))->putFileAs($folder, $file, $name, $visibility) :
-            Storage::putFileAs($folder, $file, $name, $visibility);
+        return Storage::putFileAs($folder, $file, $name, $visibility);
     }
 
     /**
      * Delete file from s3 server.
      *
      * @param string $path
-     * @param ?string $folder
      * @param string $visibility
      * @return void
      */
-    public function delete(string $path, ?string $folder = ''): void
+    public function delete(string $path): void
     {
-        $path = $folder ? $folder . '/' . $path : $path;
-
-        App::environment(['testing', 'dusk']) ?
-            Storage::fake(env('FILESYSTEM_DISK', 's3'))->delete($path) :
-            Storage::delete($path);
+        Storage::delete($path);
     }
 
     /**
@@ -86,9 +71,11 @@ class S3Service
     public function getPath(?string $path): ?string
     {
         if ($path) {
-            return App::environment(['testing', 'dusk']) ?
-                $path :
-                Storage::temporaryUrl($path, Carbon::now()->addHours(2));
+            if (App::environment(['testing', 'dusk']) || (env('ENVIRONMENT') && env('ENVIRONMENT') === 'dusk')) {
+                return $path;
+            }
+
+            return Storage::temporaryUrl($path, Carbon::now()->addHours(2));
         }
 
         return null;

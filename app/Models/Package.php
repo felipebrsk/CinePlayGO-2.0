@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 
@@ -19,8 +18,14 @@ class Package extends Model
         'price',
         'amount',
         'active',
-        'package_type_id',
     ];
+
+    /**
+     * The coin multiplier for exchange.
+     *
+     * @var float
+     */
+    public const EXCHANGE_MULTIPLIER = 0.005;
 
     /**
      * Get the attributes that should be cast.
@@ -32,16 +37,6 @@ class Package extends Model
         return [
             'active' => 'boolean',
         ];
-    }
-
-    /**
-     * Get the type that owns the Package
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function type(): BelongsTo
-    {
-        return $this->belongsTo(PackageType::class);
     }
 
     /**

@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         $titleService = new TitleService();
 
         User::factory(20)->create()->each(function (User $user) use ($titleService) {
-            RegisterUserJob::dispatch($user, $titleService);
+            RegisterUserJob::dispatch($user);
         });
 
         $user = User::create([
@@ -27,6 +27,6 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
         ]);
 
-        RegisterUserJob::dispatch($user, $titleService);
+        RegisterUserJob::dispatch($user);
     }
 }

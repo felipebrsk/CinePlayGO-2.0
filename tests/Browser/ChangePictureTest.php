@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use Illuminate\Support\Facades\Storage;
 
 class ChangePictureTest extends DuskTestCase
 {
@@ -42,5 +43,7 @@ class ChangePictureTest extends DuskTestCase
                 ->waitForLocation(route('profiles.show'))
                 ->assertSee('Your profile picture was successfully updated!');
         });
+
+        Storage::assertExists('profiles/' . $this->user->username . '_profile_picture');
     }
 }

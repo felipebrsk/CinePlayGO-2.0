@@ -39,6 +39,7 @@
     @include('components.footer')
     @livewireScripts
     @stack('scripts')
+    @livewire('toast')
 </body>
 
 </html>

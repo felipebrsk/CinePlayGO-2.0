@@ -6,9 +6,9 @@ use Tests\TestCase;
 use Livewire\Livewire;
 use Tests\Traits\HasDummyUser;
 use App\Livewire\ChangePicture;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ChangePictureTest extends TestCase
 {

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Jobs\RegisterUserJob;
-use App\Services\TitleService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -34,23 +33,13 @@ class RegisterController extends Controller
     protected $redirectTo = '/';
 
     /**
-     * The title service.
-     *
-     * @var \App\Services\TitleService
-     */
-    protected $titleService;
-
-    /**
      * Create a new controller instance.
      *
-     * @param \App\Services\TitleService $titleService
      * @return void
      */
-    public function __construct(TitleService $titleService)
+    public function __construct()
     {
         $this->middleware('guest');
-
-        $this->titleService = $titleService;
     }
 
     /**
@@ -94,6 +83,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $_, User $user)
     {
-        RegisterUserJob::dispatch($user, $this->titleService);
+        RegisterUserJob::dispatch($user);
     }
 }

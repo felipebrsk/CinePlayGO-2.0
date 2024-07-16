@@ -1,75 +1,23 @@
-@props(['type' => 'button', 'label' => 'Button', 'loading' => false, 'class' => null, 'disabled' => false])
+@props([
+    'type' => 'button',
+    'label' => null,
+    'loading' => false,
+    'class' => null,
+    'disabled' => false,
+    'icon' => null,
+    'dusk' => null,
+])
 
-<button type="{{ $type }}"
+<button type="{{ $type }}" dusk="{{ $dusk }}"
     {{ $attributes->merge(['class' => $class ? $class : 'bg-yellow-500 py-2 px-4 rounded-lg shadow hover:bg-yellow-600 transition duration-200 w-full mt-1 flex items-center justify-center', 'disabled' => $disabled]) }}>
     <span wire:loading.remove wire:target="{{ $loading }}">
+        @if ($icon)
+            <i class="{{ $icon }}"></i>
+        @endif
         {{ $label }}
     </span>
     <svg wire:loading wire:target="{{ $loading }}" class="h-6 w-6" viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-        <style>
-            .spinner_DupU {
-                animation: spinner_sM3D 1.2s infinite
-            }
-
-            .spinner_GWtZ {
-                animation-delay: .1s
-            }
-
-            .spinner_dwN6 {
-                animation-delay: .2s
-            }
-
-            .spinner_46QP {
-                animation-delay: .3s
-            }
-
-            .spinner_PD82 {
-                animation-delay: .4s
-            }
-
-            .spinner_eUgh {
-                animation-delay: .5s
-            }
-
-            .spinner_eUaP {
-                animation-delay: .6s
-            }
-
-            .spinner_j38H {
-                animation-delay: .7s
-            }
-
-            .spinner_tVmX {
-                animation-delay: .8s
-            }
-
-            .spinner_DQhX {
-                animation-delay: .9s
-            }
-
-            .spinner_GIL4 {
-                animation-delay: 1s
-            }
-
-            .spinner_n0Yb {
-                animation-delay: 1.1s
-            }
-
-            @keyframes spinner_sM3D {
-
-                0%,
-                50% {
-                    animation-timing-function: cubic-bezier(0, 1, 0, 1);
-                    r: 0
-                }
-
-                10% {
-                    animation-timing-function: cubic-bezier(.53, 0, .61, .73);
-                    r: 2px
-                }
-            }
-        </style>
         <circle class="spinner_DupU" cx="12" cy="3" r="0" />
         <circle class="spinner_DupU spinner_GWtZ" cx="16.50" cy="4.21" r="0" />
         <circle class="spinner_DupU spinner_n0Yb" cx="7.50" cy="4.21" r="0" />

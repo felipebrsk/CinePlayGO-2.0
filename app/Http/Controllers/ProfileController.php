@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{User, Title};
+use App\Models\Title;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
-use App\Services\{PackageService, TitleService, TransactionService};
+use App\Services\{PackageService, TransactionService};
 
 class ProfileController extends Controller
 {
-    /**
-     * The title service.
-     *
-     * @var \App\Services\TitleService
-     */
-    private $titleService;
-
     /**
      * The transaction service.
      *
@@ -32,29 +24,16 @@ class ProfileController extends Controller
     /**
      * Create a new class instance.
      *
-     * @param \App\Services\TitleService $titleService
      * @param \App\Services\PackageService $packageService
      * @param \App\Services\TransactionService $transactionService
      * @return void
      */
     public function __construct(
-        TitleService $titleService,
         PackageService $packageService,
         TransactionService $transactionService,
     ) {
-        $this->titleService = $titleService;
         $this->packageService = $packageService;
         $this->transactionService = $transactionService;
-    }
-
-    /**
-     * Get the authenticated user.
-     *
-     * @return \App\Models\User
-     */
-    private function getAuthenticatedUser(): User
-    {
-        return Auth::user();
     }
 
     /**
@@ -114,7 +93,7 @@ class ProfileController extends Controller
     {
         return view('profiles.coins', [
             'user' => $this->getAuthenticatedUser(),
-            'packages' => $this->packageService->coins(),
+            'packages' => $this->packageService->all(),
         ]);
     }
 
@@ -145,7 +124,7 @@ class ProfileController extends Controller
             'titles' => $user->titles->mapWithKeys(function (Title $title) {
                 return [$title->id => $title->title];
             }),
-            'allTitles' => $this->titleService->all(),
+            'allTitles' => titleService()->all(),
         ]);
     }
 }

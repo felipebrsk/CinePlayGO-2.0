@@ -15,7 +15,6 @@ return new class () extends Migration {
             $table->integer('price');
             $table->integer('amount');
             $table->boolean('active')->default(true);
-            $table->foreignId('package_type_id')->constrained();
             $table->softDeletes();
             $table->timestamps();
         });

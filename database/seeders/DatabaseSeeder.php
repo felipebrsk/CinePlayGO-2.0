@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             TitleSeeder::class,
             MediaTypeSeeder::class,
             TransactionTypeSeeder::class,
-            PackageTypeSeeder::class,
             PackageSeeder::class,
+            CouponTypeSeeder::class,
         ]);
     }
 }
